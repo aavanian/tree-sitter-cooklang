@@ -1,0 +1,126 @@
+========================|||
+amount: integer quantity
+========================|||
+
+@ingredient{2}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+========================|||
+amount: decimal quantity
+========================|||
+
+@ingredient{2.5}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===========================|||
+amount: fractional quantity
+===========================|||
+
+@ingredient{5/2}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+=======================================|||
+amount: fractional quantity with spaces
+=======================================|||
+
+@ingredient{5 / 2}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+======================|||
+amount: large quantity
+======================|||
+
+@ingredient{2000%g}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===============================|||
+amount: mixed fraction quantity
+===============================|||
+
+@ingredient{1 1/2%cups}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+=============================|||
+amount: unit with % separator
+=============================|||
+
+@ingredient{250%ml}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+=================================|||
+amount: unit with space separator
+=================================|||
+
+@ingredient{250 ml}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+=================================|||
+amount: zero quantity
+=================================|||
+
+@ingredient{0 ml}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+

@@ -1,8 +1,0 @@
-(recipe
-  (step
-    (plain_text)
-    (ingredient
-      name: (ingredient_text)
-      (amount
-        (quantity)
-        (units)))))

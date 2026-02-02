@@ -1,0 +1,140 @@
+===|||
+edge_case: adjacent symbols
+===|||
+
+@salt{}#pan{}~{5%min}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (timer
+      (quantity))))
+
+===|||
+edge_case: all elements in one line (expected bug on recipe note)
+===|||
+
+---
+servings: 4
+---
+= Section Name
+-- Comment here
+> Note here
+
+In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
+
+---|||
+
+(recipe
+  (frontmatter
+    (frontmatter_content))
+  (section
+    (section_name))
+  (comment
+    (comment_line))
+  (recipe_note)
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (block_comment
+      (comment_block))
+    (text
+      (text_content))))
+
+===|||
+edge_case: escape character - do not handle it
+===|||
+
+@ingredient{1%cup\}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===|||
+edge_case: nested parenthesis
+===|||
+
+@ingredient{1}(note (with nested) parens)
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))))
+
+===|||
+edge_case: special characters
+===|||
+
+Use the @symbol and #tag carefully with ~timing!
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name))
+    (text
+      (text_content))
+    (cookware
+      (cookware_name))
+    (text
+      (text_content))))
+
+===|||
+edge_case: unicode in ingredient
+===|||
+
+@café{2%cups}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===|||
+edge_case: long multi word ingredient
+===|||
+
+@very long ingredient name with many words{1}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))

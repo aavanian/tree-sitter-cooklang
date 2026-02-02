@@ -1,0 +1,148 @@
+==================|||
+ingredient: simple
+==================|||
+
+@salt
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name))))
+
+=================================|||
+ingredient: with decimal quantity
+=================================|||
+
+@olive oil{2.5%tbsp}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===============================|||
+ingredient: with empty quantity
+===============================|||
+
+@ground black pepper{}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+====================================|||
+ingredient: with fractional quantity
+====================================|||
+
+@flour{1/2%cup}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+================================|||
+ingredient: with multi-word name
+================================|||
+
+@red bell pepper{1}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===================================|||
+ingredient: with quantity only
+===================================|||
+
+@bacon strips{1}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+===================================|||
+ingredient: with quantity and unit
+===================================|||
+
+@bacon strips{1%kg}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity))))
+
+=====================|||
+ingredient: with note
+=====================|||
+
+@carrots(diced)
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (note
+        (note_content)))))
+
+=======================================|||
+ingredient: with quantity and note
+=======================================|||
+
+@carrots{2}(diced)
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))))
+
+===========================================|||
+ingredient: multiple ingredient in one step
+===========================================|||
+
+Mix @flour{2%cups} with @water{1%cup}
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))))

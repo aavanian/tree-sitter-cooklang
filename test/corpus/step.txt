@@ -1,0 +1,131 @@
+======================|||
+step: simple line step
+==========+===========|||
+
+Mix all ingredients together.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
+====================|||
+step: multiple steps
+====================|||
+
+First step here.
+
+Second step starts after empty line.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))))
+
+=====================|||
+step: multi-line step
+=====================|||
+
+A step that continues
+on multiple lines without
+any empty lines between.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
+============================|||
+step: step with all elements (should the comment really don't belong to the step?)
+============================|||
+
+In a #large pot{}, combine @water{2%L}, @salt{1%tsp}, and heat for ~{10%minutes} -- don't let it boil over!
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      name: (cookware_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (timer
+        (quantity)))
+    (comment
+      content: (comment_line)))
+
+===================================|||
+step: text, ingredient and quantity
+===================================|||
+
+Mix @flour{2%cups}
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity))))
+
+=======================================================|||
+step: 2 steps with ingredient, cookware, timer and note
+=======================================================|||
+
+Heat #pan{} with @oil{2%tbsp}.
+
+Add @onions{2}(diced) and cook ~{5%minutes}.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      name: (cookware_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity))
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity)
+      (note content: (note_content)))
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (text
+      (text_content))))

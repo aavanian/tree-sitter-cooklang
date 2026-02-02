@@ -1,3 +1,0 @@
-(recipe
-  (step
-    (plain_text)))

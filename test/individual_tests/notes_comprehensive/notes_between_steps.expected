@@ -1,6 +1,0 @@
-(recipe
-  (step
-    (plain_text))
-  (note)
-  (step
-    (plain_text)))

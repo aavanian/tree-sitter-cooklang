@@ -12,6 +12,26 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 * It appears that the Cooklang BNF doesn't actually allow for punctuation (eg. `-`) in `word`s (like ingredient names), but the compiler allows for it. I explicitly put it in this grammar since it seems useful. This is hacky.
 * Newline and whitespace characters are handled slightly differently due to the way Tree-Sitter views them.
 
+## Testing
+
+Tests use tree-sitter system:
+
+```
+tree-sitter test
+```
+
+tests are organized by the main aspect they're validating (see files `test/corpus/`):
+
+```
+tree-sitter test --file-name ingredient.txt
+```
+
+Or we can run test on a restricted scope using a regex against the test names:
+
+```
+tree-sitter test -i ingredient
+```
+
 ## References
 
 * [Cooklang EBNF](https://github.com/cooklang/spec/blob/main/EBNF.md)

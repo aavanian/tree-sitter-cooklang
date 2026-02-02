@@ -1,0 +1,91 @@
+==========================|||
+cookware: with no quantity
+==========================|||
+
+#pot
+
+---|||
+
+(recipe
+  (step
+    (cookware
+      (cookware_name))))
+
+=============================|||
+cookware: with empty quantity
+=============================|||
+
+#potato masher{}
+
+---|||
+
+(recipe
+  (step
+    (cookware
+      (cookware_name)
+      (quantity))))
+
+=======================|||
+cookware: with quantity
+=======================|||
+
+#potato masher{1}
+
+---|||
+
+(recipe
+  (step
+    (cookware
+      (cookware_name)
+      (quantity))))
+
+=========================|||
+cookware: multi-word name
+=========================|||
+
+#cast iron skillet{1}
+
+---|||
+
+(recipe
+  (step
+    (cookware
+      (cookware_name)
+      (quantity))))
+
+===================|||
+cookware: with note
+===================|||
+
+#large mixing bowl{1}(stainless steel)
+
+---|||
+
+(recipe
+  (step
+    (cookware
+      (cookware_name)
+      (quantity)
+      (note
+        (note_content)))))
+
+==================|||
+cookware: multiple
+==================|||
+
+Place in #oven on #baking sheet{}
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name))
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))))
+

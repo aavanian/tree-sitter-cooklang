@@ -1,0 +1,112 @@
+===|||
+whitespace: basic
+===|||
+
+Mix it
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
+===|||
+whitespace: double empty line
+===|||
+
+First step here.
+
+
+Second step here.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))))
+
+===|||
+whitespace: empty line in section - irrelevant since section are dividers, not containers
+===|||
+
+= Dough =
+Mix ingredients.
+
+Continue mixing.
+
+
+Start kneading.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))))
+
+===|||
+whitespace: mixed content with empty lines
+===|||
+
+First step.
+
+> A note here
+
+Second part of first step.
+
+
+New step starts here.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (recipe_note)
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))))
+
+===|||
+whitespace: single empty line
+===|||
+
+Mix @flour{200%g} and @water{100%ml}.
+
+Continue mixing until smooth.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))))

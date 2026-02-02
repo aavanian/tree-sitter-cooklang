@@ -1,0 +1,236 @@
+===|||
+preparation: cookware with preparation
+===|||
+
+Place in #pan{}(well-oiled and preheated).
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: timer with preparation
+===|||
+
+Cook for ~{10%minutes}(stirring occasionally).
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (timer
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: ingredient with empty quantity and preparation
+===|||
+
+Season with @pepper{}(freshly ground).
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: ingredient with no quantity and preparation
+===|||
+
+Season with @pepper(freshly ground).
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: multiple
+===|||
+
+Mix @onion{1}(peeled and finely chopped) and @garlic{2%cloves}(peeled and minced) into paste.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: with complex text
+===|||
+
+Add @tomatoes{4}(washed, cored, and cut into 1/4-inch slices).
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis not immediately following an ingredient, timer or cookware shouldn't be preparations
+===|||
+
+This is a step without ingredient, timer or cookware (and so this is not a preparation)
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis not immediately following an ingredient, timer or cookware shouldn't be preparations
+===|||
+
+This is a step with an @ingredient{} but this doesn't immediately follow (so this is not a preparation)
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis immediately following an cookware is a preparation
+===|||
+
+This is a step with an #pan{}(and a preparation) and more text after.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis immediately following an ingredient is a preparation
+===|||
+
+This is a step with an @ingredient{}(and a preparation) and more text after.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis immediately following an timer is a preparation
+===|||
+
+This is a step with an ~timer{1%s}(and a preparation) and more text after.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (timer
+      (timer_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+
+===|||
+preparation: parenthesis immediately following an ingredient is a preparation but additional parenthesis are not
+===|||
+
+This is a step with an @ingredient{}(and a preparation) but this doesn't immediately follow (so this is not a preparation)
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)
+      (note
+        (note_content)))
+    (text
+      (text_content))))
+

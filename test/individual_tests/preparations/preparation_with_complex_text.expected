@@ -1,6 +1,0 @@
-(recipe 
-  (step 
-    (ingredient 
-      (name) 
-      (amount (quantity))
-      note: (note_text)))

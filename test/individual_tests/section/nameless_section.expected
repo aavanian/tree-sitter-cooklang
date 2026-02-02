@@ -1,4 +1,0 @@
-(recipe 
-  (section
-    header: (section_header)
-    content: (step)))

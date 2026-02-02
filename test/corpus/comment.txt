@@ -1,0 +1,167 @@
+===|||
+comment: simple line comment
+===|||
+
+-- Don't burn the roux!
+
+---|||
+
+(recipe
+  (comment
+    (comment_line)))
+
+===|||
+comment: simple line comment after simple step
+===|||
+
+Cook slowly. -- patience is key
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content)))
+  (comment
+    content: (comment_line)))
+
+===|||
+comment: simple line comment after step with cookware
+===|||
+
+Cook slowly in a #large pot{} -- patience is key
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      name: (cookware_name)
+      (quantity)))
+  (comment
+    content: (comment_line)))
+
+===|||
+comment: simple line comment after step with ingredient
+===|||
+
+Cook slowly the @meat{} -- patience is key
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      name: (ingredient_name)
+      (quantity)))
+  (comment
+    content: (comment_line)))
+
+===|||
+comment: simple line comment after step with timer
+===|||
+
+Cook slowly for ~{6%hours} -- patience is key
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (timer
+      (quantity)))
+  (comment
+    content: (comment_line)))
+
+===|||
+comment: single-line comment block
+===|||
+
+[- This is a longer comment -]
+
+---|||
+
+(recipe
+  (block_comment
+    (comment_block)))
+
+===|||
+comment: inline block comment
+===|||
+
+Mash @potato{2%kg} [- TODO change units to litres -]
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity)))
+  (block_comment
+    (comment_block)))
+
+===|||
+comment: multi-line comment block
+===|||
+
+[- This is a longer comment
+   that spans multiple lines
+   with various notes -]
+
+---|||
+
+(recipe
+  (block_comment
+    (comment_block)))
+
+===|||
+comment: multiple
+===|||
+
+-- First comment
+Stir well [- remember to scrape bottom -] -- another comment
+
+---|||
+
+(recipe
+  (comment
+    (comment_line))
+  (step
+    (text
+      (text_content)))
+  (block_comment
+    (comment_block))
+  (comment
+    (comment_line)))
+
+===|||
+comment: no parsing ingredient in line comment
+===|||
+
+-- I need @potato{1%gram}.
+
+---|||
+
+(recipe 
+  (comment
+    (comment_line)))
+
+===|||
+comment: no parsing ingredient in block comment
+===|||
+
+[- I need @potato{1%gram}. -]
+
+---|||
+
+(recipe 
+  (block_comment
+    (comment_block)))

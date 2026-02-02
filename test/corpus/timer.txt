@@ -1,0 +1,127 @@
+===|||
+timer: anonymous
+===|||
+
+~{25%minutes}
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (quantity))))
+
+====================================|||
+timer: a timer must have a quantity!
+====================================|||
+
+~timer!
+
+---|||
+
+(recipe
+  (text
+    (text_content)))
+
+=========================================================|||
+timer: a timer must have a quantity! a note is not enough
+=========================================================|||
+
+~timer!(not!)
+
+---|||
+
+(recipe
+  (text
+    (text_content)))
+
+===|||
+timer: multiple
+===|||
+
+Cook for ~{5%minutes}, then simmer ~{20%minutes}
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (text
+      (text_content))
+    (timer
+      (quantity))))
+
+===|||
+timer: named
+===|||
+
+~eggs{3%minutes}
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (timer_name)
+      (quantity))))
+
+===|||
+timer: anonymous with note
+===|||
+
+~{10%minutes}(or until golden brown)
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (quantity)
+      (note
+        (note_content)))))
+
+===|||
+timer: named with note
+===|||
+
+~rest{30%minutes}(covered)
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (timer_name)
+      (quantity)
+      (note
+        (note_content)))))
+
+===|||
+timer: with hours unit
+===|||
+
+~marinate{2%hours}
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (timer_name)
+      (quantity))))
+
+===|||
+timer: with decimal hours unit
+===|||
+
+~{1.5%hours}
+
+---|||
+
+(recipe
+  (step
+    (timer
+      (quantity))))

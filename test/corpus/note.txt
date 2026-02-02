@@ -1,0 +1,142 @@
+===|||
+note: empty
+===|||
+
+>
+
+---|||
+
+(recipe
+  (recipe_note))
+
+===|||
+note: empty with space
+===|||
+
+> 
+
+---|||
+
+(recipe
+  (recipe_note))
+
+===|||
+note: with no space after symbol
+===|||
+
+>a note?
+
+---|||
+
+(recipe
+  (recipe_note))
+
+============|||
+note: simple
+============|||
+
+> simple note
+
+---|||
+
+(recipe
+  (recipe_note))
+
+===|||
+note: multiple not separated by a blank line
+===|||
+
+> This is the first note.
+> This is the continuation
+more continuation
+
+then a step
+
+---|||
+
+(recipe
+  (recipe_note)
+  (step
+    (text
+      (text_content))))
+
+===|||
+note: multiple separated by a blank line
+===|||
+
+> This is the first note.
+
+> This is the second note.
+
+Prepare the ingredients.
+
+---|||
+
+(recipe
+  (recipe_note)
+  (recipe_note)
+  (step
+    (text
+      (text_content))))
+
+===|||
+note: with special character
+===|||
+
+> Remember: use 50% less salt!
+
+---|||
+
+(recipe
+  (recipe_note))
+
+===|||
+note: followed by step
+===|||
+
+> Don't burn the roux!
+
+Mash @potato{2%kg} until smooth.
+
+---|||
+
+(recipe
+  (recipe_note)
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+note: long
+===|||
+
+> This is a very long note that contains lots of information about the recipe including tips, tricks, and various suggestions for making it better
+
+---|||
+
+(recipe
+  (recipe_note))
+
+===|||
+note: after section (section divider/container issue)
+===|||
+
+= Cooking Tips
+
+> Always taste as you go
+
+> Adjust seasoning at the end
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (recipe_note)
+  (recipe_note))
+

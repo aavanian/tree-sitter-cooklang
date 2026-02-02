@@ -1,4 +1,0 @@
-(recipe 
-  (step 
-    (ingredient (name))
-    (ingredient (name))))

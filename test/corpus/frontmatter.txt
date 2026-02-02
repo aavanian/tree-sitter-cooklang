@@ -1,0 +1,59 @@
+======|||
+frontmatter: empty
+======|||
+
+---
+---
+
+---|||
+
+(recipe
+  (frontmatter))
+
+======|||
+frontmatter: simple
+======|||
+
+---
+title: my recipe
+---
+
+---|||
+
+(recipe
+  (frontmatter
+    (frontmatter_content)))
+
+===|||
+frontmatter: with step
+===|||
+
+---
+yield: 1 kg
+---
+
+Add the @flour{650%g} and @salt{1%tsp} to the #mixing bowl{}. Mix on low speed for 10 seconds to combine.
+
+---|||
+
+(recipe
+  (frontmatter
+    (frontmatter_content))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (text
+      (text_content))))

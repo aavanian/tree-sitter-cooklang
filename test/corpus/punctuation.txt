@@ -1,0 +1,120 @@
+===|||
+punctuation: cookware with exclamation mark
+===|||
+
+Use the #mixer! Be careful.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name))
+    (text
+      (text_content))))
+
+===|||
+punctuation: cookware with comma
+===|||
+
+Use #bowl, then mix.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name))
+    (text
+      (text_content))))
+
+===|||
+punctuation: cookware with period
+===|||
+
+Heat #pan.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name))
+    (text
+      (text_content))))
+
+===|||
+punctuation: ingredient with question mark
+===|||
+
+Did you add @vanilla extract{}? Check again.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+punctuation: ingredient with period
+===|||
+
+Add @salt.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name))
+    (text
+      (text_content))))
+
+===|||
+punctuation: multiword cookware
+===|||
+
+Place in #baking dish{} carefully.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+punctuation: timer with period
+===|||
+
+Cook for ~{5%minutes}.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (text
+      (text_content))))

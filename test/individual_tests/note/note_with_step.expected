@@ -1,3 +1,0 @@
-(recipe 
-  (note)
-  (step (ingredient (name) (amount (quantity) (units)))))

@@ -1,0 +1,135 @@
+===|||
+metadata: single line
+===|||
+
+>> hello: test
+
+---|||
+
+
+(recipe 
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: skip line
+===|||
+
+>> hello: test
+
+recipe line
+
+>> test: hi
+
+---|||
+
+(recipe
+  (metadata
+    (metadata_key)
+    (metadata_value)) 
+  (step
+    (text
+      (text_content)))
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: skip 2 lines (multiline step bug acknowledged here)
+===|||
+
+>> hello: test
+
+recipe line
+recipe line
+
+>> test: hi
+
+---|||
+
+(recipe
+  (metadata
+    (metadata_key)
+    (metadata_value)) 
+  (step
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content)))
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: 2 lines
+===|||
+
+>> hello: test
+>> test: hi
+
+---|||
+
+(recipe
+  (metadata
+    (metadata_key)
+    (metadata_value)) 
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: number
+===|||
+
+>> cook time: 30
+
+---|||
+
+
+(recipe 
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: amount with units
+===|||
+
+>> calories: 250%kcal
+
+---|||
+
+
+(recipe 
+  (metadata
+    (metadata_key)
+    (metadata_value)))
+
+===|||
+metadata: mixed with content
+===|||
+
+>> source: Grandma's cookbook
+
+= Main Recipe
+
+Cook the dish.
+
+>> leftovers: Keep refrigerated for 3 days
+
+---|||
+
+(recipe
+  (metadata
+    (metadata_key)
+    (metadata_value))
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content)))
+  (metadata
+    (metadata_key)
+    (metadata_value)))

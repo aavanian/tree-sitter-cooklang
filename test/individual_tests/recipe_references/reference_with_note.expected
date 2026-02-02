@@ -1,6 +1,0 @@
-(recipe 
-  (step 
-    (ingredient 
-      (recipe_reference) 
-      (amount (quantity) (units))
-      note: (note_text)))

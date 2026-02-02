@@ -1,8 +1,0 @@
-(recipe
-  (section
-    header: (section_header
-      name: )
-    content: (comment)
-    content: (step
-      (plain_text))
-    content: (note)))

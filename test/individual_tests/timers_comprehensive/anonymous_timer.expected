@@ -1,6 +1,0 @@
-(recipe
-  (step
-    (timer
-      (amount
-        (quantity)
-        (units)))))

@@ -1,0 +1,34 @@
+===|||
+bug: hyphen basic
+===|||
+
+medium-high
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
+===|||
+bug: hyphen in full step
+===|||
+
+Cut @pork{1/2%lb} into small cubes. Using the same skillet, add 2 Tbsp of olive oil and cook pork for ~{5%minutes} over medium-high heat, stirring occasionally.
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (text
+      (text_content))))

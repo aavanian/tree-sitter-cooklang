@@ -1,0 +1,212 @@
+===|||
+section: empty section
+===|||
+
+= Empty =
+
+---|||
+
+(recipe 
+  (section
+    name: (section_name)))
+
+===|||
+section: nameless with step after
+===|||
+
+====
+step after nameless section
+
+---|||
+
+(recipe 
+  (section
+    name: (section_name))
+  (step
+    (text
+      (text_content))))
+
+===|||
+section: simple section with step
+===|||
+
+= Dough
+Mix @flour{200%g} and @water{100%ml} together.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+section: simple section with space before step 
+===|||
+
+= Dough
+
+Mix @flour{200%g} and @water{100%ml} together.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+section: named with closing symbols
+===|||
+
+== Filling ==
+Add @cheese{100%g}.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+section: with step and recipe note (expected bug on recipe note)
+===|||
+
+= Dough
+Mix ingredients.
+> Don't overmix!
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content)))
+  (recipe_note))
+
+===|||
+section: multiple
+===|||
+
+= Section 1 =
+First step.
+
+== Section 2 ==
+Second step.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content)))
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content))))
+
+===|||
+section: with multiple steps
+===|||
+
+= Main Course
+
+Heat the #oven{} to 180°C.
+
+Place @chicken{1%kg} in #roasting pan{}.
+
+Cook for ~{45%minutes}.
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (step
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name)
+      (quantity))
+    (text
+      (text_content))
+    (cookware
+      (cookware_name)
+      (quantity))
+    (text
+      (text_content)))
+  (step
+    (text
+      (text_content))
+    (timer
+      (quantity))
+    (text
+      (text_content))))
+
+===|||
+section: nested content - mostly irrelevant since section are just dividers (expected bug on recipe note)
+===|||
+
+= Preparation
+
+-- Important note
+Mix ingredients carefully.
+
+> Remember to preheat oven!
+
+---|||
+
+(recipe
+  (section
+    (section_name))
+  (comment
+    (comment_line))
+  (step
+    (text
+      (text_content)))
+  (recipe_note))

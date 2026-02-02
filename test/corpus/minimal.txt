@@ -1,0 +1,26 @@
+============|||
+minimal: just ingredient
+============|||
+
+@flour
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      name: (ingredient_name))))
+
+=============|||
+minimal: just text
+=============|||
+
+Mix it
+
+---|||
+
+(recipe
+  (step
+    (text
+      (text_content))))
+
