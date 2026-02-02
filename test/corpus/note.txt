@@ -29,7 +29,8 @@ note: with no space after symbol
 ---|||
 
 (recipe
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))
 
 ============|||
 note: simple
@@ -40,7 +41,8 @@ note: simple
 ---|||
 
 (recipe
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))
 
 ===|||
 note: multiple not separated by a blank line
@@ -55,7 +57,8 @@ then a step
 ---|||
 
 (recipe
-  (recipe_note)
+  (recipe_note
+    (recipe_note_text))
   (step
     (text
       (text_content))))
@@ -73,8 +76,10 @@ Prepare the ingredients.
 ---|||
 
 (recipe
-  (recipe_note)
-  (recipe_note)
+  (recipe_note
+    (recipe_note_text))
+  (recipe_note
+    (recipe_note_text))
   (step
     (text
       (text_content))))
@@ -88,7 +93,8 @@ note: with special character
 ---|||
 
 (recipe
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))
 
 ===|||
 note: followed by step
@@ -101,7 +107,8 @@ Mash @potato{2%kg} until smooth.
 ---|||
 
 (recipe
-  (recipe_note)
+  (recipe_note
+    (recipe_note_text))
   (step
     (text
       (text_content))
@@ -120,7 +127,8 @@ note: long
 ---|||
 
 (recipe
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))
 
 ===|||
 note: after section (section divider/container issue)
@@ -137,6 +145,7 @@ note: after section (section divider/container issue)
 (recipe
   (section
     (section_name))
-  (recipe_note)
-  (recipe_note))
-
+  (recipe_note
+    (recipe_note_text))
+  (recipe_note
+    (recipe_note_text)))

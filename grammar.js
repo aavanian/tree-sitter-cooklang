@@ -29,7 +29,8 @@ module.exports = grammar({
   conflicts: $ => [
     [$.ingredient],
     [$.cookware],
-    [$.timer]
+    [$.timer],
+    [$.recipe, $.frontmatter]
   ],
 
   rules: {
@@ -50,7 +51,9 @@ module.exports = grammar({
       ))
     ),
 
+    // Frontmatter allows optional leading blank lines (for test format compatibility)
     frontmatter: $ => seq(
+      repeat($._newline),
       token(prec(10, '---')),
       $._newline,
       optional($.frontmatter_content),

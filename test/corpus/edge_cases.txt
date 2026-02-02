@@ -18,7 +18,7 @@ edge_case: adjacent symbols
       (quantity))))
 
 ===|||
-edge_case: all elements in one line (expected bug on recipe note)
+edge_case: all elements in one line
 ===|||
 
 ---
@@ -39,7 +39,8 @@ In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
     (section_name))
   (comment
     (comment_line))
-  (recipe_note)
+  (recipe_note
+    (recipe_note_text))
   (step
     (text
       (text_content))

@@ -117,6 +117,13 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_newline"
+          }
+        },
+        {
           "type": "TOKEN",
           "content": {
             "type": "PREC",
@@ -499,6 +506,10 @@
     ],
     [
       "timer"
+    ],
+    [
+      "recipe",
+      "frontmatter"
     ]
   ],
   "precedences": [],

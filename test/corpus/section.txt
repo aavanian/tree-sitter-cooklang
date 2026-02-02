@@ -8,7 +8,7 @@ section: empty section
 
 (recipe 
   (section
-    name: (section_name)))
+    (section_name)))
 
 ===|||
 section: nameless with step after
@@ -21,7 +21,7 @@ step after nameless section
 
 (recipe 
   (section
-    name: (section_name))
+    (section_name))
   (step
     (text
       (text_content))))
@@ -101,7 +101,7 @@ Add @cheese{100%g}.
       (text_content))))
 
 ===|||
-section: with step and recipe note (expected bug on recipe note)
+section: with step and recipe note
 ===|||
 
 = Dough
@@ -116,7 +116,8 @@ Mix ingredients.
   (step
     (text
       (text_content)))
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))
 
 ===|||
 section: multiple
@@ -189,7 +190,7 @@ Cook for ~{45%minutes}.
       (text_content))))
 
 ===|||
-section: nested content - mostly irrelevant since section are just dividers (expected bug on recipe note)
+section: nested content - mostly irrelevant since section are just dividers
 ===|||
 
 = Preparation
@@ -209,4 +210,5 @@ Mix ingredients carefully.
   (step
     (text
       (text_content)))
-  (recipe_note))
+  (recipe_note
+    (recipe_note_text)))

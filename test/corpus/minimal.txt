@@ -9,7 +9,7 @@ minimal: just ingredient
 (recipe
   (step
     (ingredient
-      name: (ingredient_name))))
+      (ingredient_name))))
 
 =============|||
 minimal: just text

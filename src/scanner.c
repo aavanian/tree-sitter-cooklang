@@ -19,7 +19,7 @@ enum TokenType {
     COMMENT_BLOCK,
     RECIPE_NOTE_TEXT,
     WHITESPACE_TOKEN,
-    EOF
+    TOKEN_EOF
 };
 
 typedef struct {
@@ -275,8 +275,8 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle EOF
     if (lexer->eof(lexer)) {
-        if (valid_symbols[EOF]) {
-            lexer->result_symbol = EOF;
+        if (valid_symbols[TOKEN_EOF]) {
+            lexer->result_symbol = TOKEN_EOF;
             return true;
         }
         return false;
@@ -293,31 +293,68 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         return false;
     }
 
-    // Handle recipe notes (at start of line with single >)
-    if (scanner->at_line_start && lexer->lookahead == '>' && valid_symbols[RECIPE_NOTE_TEXT]) {
-        lexer->advance(lexer, false);
+    // Handle recipe note text (after '>' has been matched by grammar)
+    // The grammar has: recipe_note: $ => seq('>', optional($.recipe_note_text))
+    // So when RECIPE_NOTE_TEXT is valid, we're positioned after '>'
+    //
+    // Recipe notes can span multiple lines:
+    // - Lines starting with '>' continue the note
+    // - Lines without '>' also continue the note
+    // - A blank line (empty line) ends the note
+    if (valid_symbols[RECIPE_NOTE_TEXT]) {
+        // Skip optional whitespace after '>'
+        while (is_whitespace(lexer->lookahead)) {
+            lexer->advance(lexer, false);
+        }
 
-        // If it's not >>, it's a recipe note
-        if (lexer->lookahead != '>') {
-            // Skip optional whitespace
-            while (is_whitespace(lexer->lookahead)) {
-                lexer->advance(lexer, false);
-            }
+        buffer_clear(&scanner->buffer);
+        bool first_line = true;
 
-            // Scan until end of line
-            buffer_clear(&scanner->buffer);
+        while (!lexer->eof(lexer)) {
+            // Scan content until end of line
             while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
                 buffer_push(&scanner->buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
+            if (lexer->eof(lexer)) {
+                break;
+            }
+
+            // We hit a newline - check if note continues
+            lexer->advance(lexer, false);  // consume the newline
+
+            // Check for blank line (another newline = end of note)
+            if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+                break;
+            }
+
+            // Check for continuation
+            // If next line starts with '>', it's a continuation - skip the '>'
+            // If next line starts with other content, it's also a continuation
+            if (lexer->lookahead == '>') {
+                lexer->advance(lexer, false);  // skip the '>'
+                // Skip optional whitespace after '>'
+                while (is_whitespace(lexer->lookahead)) {
+                    lexer->advance(lexer, false);
+                }
+            }
+
+            // Add a space to separate lines in the buffer (for the text content)
+            if (scanner->buffer.length > 0) {
+                buffer_push(&scanner->buffer, ' ');
+            }
+            first_line = false;
+        }
+
+        // Only return a token if we have content
+        if (scanner->buffer.length > 0) {
             scanner->at_line_start = false;
             lexer->result_symbol = RECIPE_NOTE_TEXT;
             return true;
-        } else {
-            // Put back the > we consumed
-            return false;
         }
+        // No text content - recipe_note_text is optional, so return false
+        return false;
     }
 
     // Handle metadata (at start of line with >>)
@@ -353,6 +390,9 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                 return true;
             }
         }
+        // Single '>' at line start - not metadata, let grammar handle it as recipe_note
+        // Return false to allow tree-sitter to reset lexer and try other paths
+        return false;
     }
 
     // Handle metadata value (after colon in metadata line)
@@ -577,24 +617,20 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle plain text content
     if (valid_symbols[TEXT_CONTENT]) {
-        // Don't start text with special line starters
-        if (scanner->at_line_start) {
-            if (lexer->lookahead == '-' || lexer->lookahead == '=' || lexer->lookahead == '[') {
+        // Don't start text with special line starters at column 0
+        // Use get_column directly instead of at_line_start flag which can be stale
+        if (lexer->get_column(lexer) == 0) {
+            // These characters start special constructs, not text:
+            // '-' could be comment (--) or frontmatter (---)
+            // '=' is section header
+            // '[' could be block comment ([-)
+            // '>' is recipe_note or metadata (>>)
+            if (lexer->lookahead == '-' || lexer->lookahead == '=' ||
+                lexer->lookahead == '[' || lexer->lookahead == '>') {
                 return false;
             }
-            // For '>', only stop if it's a single > (not >>)
-            if (lexer->lookahead == '>') {
-                lexer->advance(lexer, false);
-                if (lexer->lookahead != '>') {
-                    // Single >, not text
-                    return false;
-                }
-                // It's >>, backtrack and continue as text
-                // But we can't backtrack, so just include the > in text
-                buffer_push(&scanner->buffer, '>');
-            }
         }
-        
+
         if (scan_text_until(lexer, &scanner->buffer, "@#~{}()")) {
             scanner->at_line_start = false;
             lexer->result_symbol = TEXT_CONTENT;

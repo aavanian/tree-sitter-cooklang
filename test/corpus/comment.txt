@@ -23,7 +23,7 @@ Cook slowly. -- patience is key
     (text
       (text_content)))
   (comment
-    content: (comment_line)))
+    (comment_line)))
 
 ===|||
 comment: simple line comment after step with cookware
@@ -38,10 +38,10 @@ Cook slowly in a #large pot{} -- patience is key
     (text
       (text_content))
     (cookware
-      name: (cookware_name)
+      (cookware_name)
       (quantity)))
   (comment
-    content: (comment_line)))
+    (comment_line)))
 
 ===|||
 comment: simple line comment after step with ingredient
@@ -56,10 +56,10 @@ Cook slowly the @meat{} -- patience is key
     (text
       (text_content))
     (ingredient
-      name: (ingredient_name)
+      (ingredient_name)
       (quantity)))
   (comment
-    content: (comment_line)))
+    (comment_line)))
 
 ===|||
 comment: simple line comment after step with timer
@@ -76,7 +76,7 @@ Cook slowly for ~{6%hours} -- patience is key
     (timer
       (quantity)))
   (comment
-    content: (comment_line)))
+    (comment_line)))
 
 ===|||
 comment: single-line comment block
