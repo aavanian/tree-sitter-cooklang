@@ -66,8 +66,8 @@ cookware: with note
     (cookware
       (cookware_name)
       (quantity)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 ==================|||
 cookware: multiple

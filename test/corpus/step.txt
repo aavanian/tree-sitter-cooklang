@@ -122,8 +122,8 @@ Add @onions{2}(diced) and cook ~{5%minutes}.
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))
     (timer

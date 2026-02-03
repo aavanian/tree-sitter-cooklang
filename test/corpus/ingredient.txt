@@ -107,8 +107,8 @@ ingredient: with note
   (step
     (ingredient
       (ingredient_name)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 =======================================|||
 ingredient: with quantity and note
@@ -123,8 +123,8 @@ ingredient: with quantity and note
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 ===========================================|||
 ingredient: multiple ingredient in one step

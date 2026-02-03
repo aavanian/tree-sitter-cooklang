@@ -13,8 +13,8 @@ Place in #pan{}(well-oiled and preheated).
     (cookware
       (cookware_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -32,8 +32,8 @@ Cook for ~{10%minutes}(stirring occasionally).
       (text_content))
     (timer
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -52,8 +52,8 @@ Season with @pepper{}(freshly ground).
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -71,8 +71,8 @@ Season with @pepper(freshly ground).
       (text_content))
     (ingredient
       (ingredient_name)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -91,15 +91,15 @@ Mix @onion{1}(peeled and finely chopped) and @garlic{2%cloves}(peeled and minced
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -118,8 +118,8 @@ Add @tomatoes{4}(washed, cored, and cut into 1/4-inch slices).
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -169,8 +169,8 @@ This is a step with an #pan{}(and a preparation) and more text after.
     (cookware
       (cookware_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -189,8 +189,8 @@ This is a step with an @ingredient{}(and a preparation) and more text after.
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -209,8 +209,8 @@ This is a step with an ~timer{1%s}(and a preparation) and more text after.
     (timer
       (timer_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 
@@ -229,8 +229,8 @@ This is a step with an @ingredient{}(and a preparation) but this doesn't immedia
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 

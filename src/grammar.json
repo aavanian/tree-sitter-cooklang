@@ -241,10 +241,6 @@
         {
           "type": "SYMBOL",
           "name": "timer"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "note"
         }
       ]
     },
@@ -284,7 +280,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "note"
+              "name": "preparation"
             },
             {
               "type": "BLANK"
@@ -325,7 +321,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "note"
+              "name": "preparation"
             },
             {
               "type": "BLANK"
@@ -366,7 +362,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "note"
+              "name": "preparation"
             },
             {
               "type": "BLANK"
@@ -399,8 +395,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "}"
+          "type": "SYMBOL",
+          "name": "_quantity_close"
         }
       ]
     },
@@ -408,7 +404,7 @@
       "type": "PATTERN",
       "value": "[^}]+"
     },
-    "note": {
+    "preparation": {
       "type": "SEQ",
       "members": [
         {
@@ -420,7 +416,7 @@
           "name": "content",
           "content": {
             "type": "SYMBOL",
-            "name": "note_content"
+            "name": "preparation_content"
           }
         },
         {
@@ -491,15 +487,6 @@
   ],
   "conflicts": [
     [
-      "ingredient"
-    ],
-    [
-      "cookware"
-    ],
-    [
-      "timer"
-    ],
-    [
       "recipe",
       "frontmatter"
     ]
@@ -528,7 +515,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "note_content"
+      "name": "preparation_content"
     },
     {
       "type": "SYMBOL",
@@ -557,6 +544,10 @@
     {
       "type": "SYMBOL",
       "name": "_whitespace_token"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_quantity_close"
     },
     {
       "type": "SYMBOL",

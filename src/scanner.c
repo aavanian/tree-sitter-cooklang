@@ -11,7 +11,7 @@ enum TokenType {
     COOKWARE_NAME,
     TIMER_NAME,
     TEXT_CONTENT,
-    NOTE_CONTENT,
+    PREPARATION_CONTENT,
     METADATA_KEY,
     METADATA_VALUE,
     SECTION_NAME,
@@ -19,6 +19,7 @@ enum TokenType {
     COMMENT_BLOCK,
     RECIPE_NOTE_TEXT,
     WHITESPACE_TOKEN,
+    QUANTITY_CLOSE,
     TOKEN_EOF
 };
 
@@ -33,6 +34,7 @@ typedef struct {
     bool in_metadata;
     bool at_line_start;
     int paren_depth;
+    bool whitespace_since_element;
 } Scanner;
 
 static inline void buffer_init(Buffer *buffer) {
@@ -279,6 +281,7 @@ void *tree_sitter_cooklang_external_scanner_create() {
     scanner->in_metadata = false;
     scanner->at_line_start = true;
     scanner->paren_depth = 0;
+    scanner->whitespace_since_element = true;
     return scanner;
 }
 
@@ -293,15 +296,17 @@ unsigned tree_sitter_cooklang_external_scanner_serialize(void *payload, char *bu
     buffer[0] = scanner->in_metadata;
     buffer[1] = scanner->at_line_start;
     buffer[2] = scanner->paren_depth;
-    return 3;
+    buffer[3] = scanner->whitespace_since_element;
+    return 4;
 }
 
 void tree_sitter_cooklang_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *scanner = (Scanner *)payload;
-    if (length >= 3) {
+    if (length >= 4) {
         scanner->in_metadata = buffer[0];
         scanner->at_line_start = buffer[1];
         scanner->paren_depth = buffer[2];
+        scanner->whitespace_since_element = buffer[3];
     }
 }
 
@@ -343,6 +348,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         while (is_whitespace(lexer->lookahead)) {
             lexer->advance(lexer, false);
         }
+        scanner->whitespace_since_element = true;
         return true;
     }
     
@@ -633,6 +639,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                 }
 
                 scanner->at_line_start = false;
+                scanner->whitespace_since_element = false;
                 lexer->result_symbol = INGREDIENT_NAME;
                 return true;
             }
@@ -641,6 +648,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         // Regular ingredient name
         if (scan_multiword(lexer, &scanner->buffer)) {
             scanner->at_line_start = false;
+            scanner->whitespace_since_element = false;
             lexer->result_symbol = INGREDIENT_NAME;
             return true;
         }
@@ -650,6 +658,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
     if (valid_symbols[COOKWARE_NAME]) {
         if (scan_multiword(lexer, &scanner->buffer)) {
             scanner->at_line_start = false;
+            scanner->whitespace_since_element = false;
             lexer->result_symbol = COOKWARE_NAME;
             return true;
         }
@@ -659,13 +668,25 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
     if (valid_symbols[TIMER_NAME]) {
         if (scan_multiword_require_quantity(lexer, &scanner->buffer)) {
             scanner->at_line_start = false;
+            scanner->whitespace_since_element = false;
             lexer->result_symbol = TIMER_NAME;
             return true;
         }
     }
 
-    // Handle note content (inside parentheses)
-    if (valid_symbols[NOTE_CONTENT]) {
+    // Handle quantity close brace - tracked externally to reset whitespace flag
+    if (valid_symbols[QUANTITY_CLOSE] && lexer->lookahead == '}') {
+        lexer->advance(lexer, false);
+        scanner->whitespace_since_element = false;
+        lexer->result_symbol = QUANTITY_CLOSE;
+        return true;
+    }
+
+    // Handle preparation content (inside parentheses, only immediately after element)
+    if (valid_symbols[PREPARATION_CONTENT]) {
+        if (scanner->whitespace_since_element) {
+            return false;
+        }
         buffer_clear(&scanner->buffer);
         int paren_depth = scanner->paren_depth;
 
@@ -693,7 +714,8 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
         if (scanner->buffer.length > 0) {
             scanner->at_line_start = false;
-            lexer->result_symbol = NOTE_CONTENT;
+            scanner->whitespace_since_element = true;
+            lexer->result_symbol = PREPARATION_CONTENT;
             return true;
         }
     }
@@ -714,8 +736,12 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             }
         }
 
-        if (scan_text_until(lexer, &scanner->buffer, "@#{}()")) {
+        // Stop at ( only when immediately after an element — preparation may follow.
+        // Otherwise ( is ordinary text.
+        const char *delimiters = scanner->whitespace_since_element ? "@#{}" : "@#{}(";
+        if (scan_text_until(lexer, &scanner->buffer, delimiters)) {
             scanner->at_line_start = false;
+            scanner->whitespace_since_element = true;
             lexer->result_symbol = TEXT_CONTENT;
             return true;
         }

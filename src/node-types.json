@@ -53,7 +53,7 @@
       "required": false,
       "types": [
         {
-          "type": "note",
+          "type": "preparation",
           "named": true
         },
         {
@@ -103,7 +103,7 @@
       "required": false,
       "types": [
         {
-          "type": "note",
+          "type": "preparation",
           "named": true
         },
         {
@@ -140,7 +140,7 @@
     }
   },
   {
-    "type": "note",
+    "type": "preparation",
     "named": true,
     "fields": {
       "content": {
@@ -148,7 +148,7 @@
         "required": true,
         "types": [
           {
-            "type": "note_content",
+            "type": "preparation_content",
             "named": true
           }
         ]
@@ -241,10 +241,6 @@
           "named": true
         },
         {
-          "type": "note",
-          "named": true
-        },
-        {
           "type": "text",
           "named": true
         },
@@ -290,7 +286,7 @@
       "required": true,
       "types": [
         {
-          "type": "note",
+          "type": "preparation",
           "named": true
         },
         {
@@ -353,7 +349,7 @@
     "named": true
   },
   {
-    "type": "note_content",
+    "type": "preparation_content",
     "named": true
   },
   {
@@ -374,10 +370,6 @@
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
     "named": false
   },
   {

@@ -1,8 +1,9 @@
 (recipe
   (step
     (ingredient
-      name: (ingredient_text)
+      name: (ingredient_name)
       (amount
         (quantity)
         (units))
-      note: (note_text)))
+      (preparation
+        preparation: (preparation_content)))))

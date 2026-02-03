@@ -82,8 +82,8 @@ Add @./broths/Vegetable{2%cups}(heated).
     (ingredient
       (recipe_reference)
       (quantity)
-      (note
-        (note_content)))
+      (preparation
+        (preparation_content)))
     (text
       (text_content))))
 

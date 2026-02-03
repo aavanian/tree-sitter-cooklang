@@ -7,7 +7,7 @@ module.exports = grammar({
     $.cookware_name,
     $.timer_name,
     $.text_content,
-    $.note_content,
+    $.preparation_content,
     $.metadata_key,
     $.metadata_value,
     $.section_name,
@@ -15,6 +15,7 @@ module.exports = grammar({
     $.comment_block,
     $.recipe_note_text,
     $._whitespace_token,
+    $._quantity_close,
     $._eof,
   ],
 
@@ -22,12 +23,7 @@ module.exports = grammar({
 
   word: ($) => $.word,
 
-  conflicts: ($) => [
-    [$.ingredient],
-    [$.cookware],
-    [$.timer],
-    [$.recipe, $.frontmatter],
-  ],
+  conflicts: ($) => [[$.recipe, $.frontmatter]],
 
   rules: {
     recipe: ($) =>
@@ -66,7 +62,7 @@ module.exports = grammar({
     step: ($) => repeat1($._step_content),
 
     _step_content: ($) =>
-      choice($.text, $.ingredient, $.cookware, $.timer, $.note),
+      choice($.text, $.ingredient, $.cookware, $.timer),
 
     text: ($) => $.text_content,
 
@@ -75,7 +71,7 @@ module.exports = grammar({
         "@",
         field("name", $.ingredient_name),
         optional($.quantity),
-        optional($.note),
+        optional($.preparation),
       ),
 
     cookware: ($) =>
@@ -83,7 +79,7 @@ module.exports = grammar({
         "#",
         field("name", $.cookware_name),
         optional($.quantity),
-        optional($.note),
+        optional($.preparation),
       ),
 
     timer: ($) =>
@@ -91,15 +87,15 @@ module.exports = grammar({
         "~",
         optional(field("name", $.timer_name)),
         $.quantity, // Required per Cooklang spec
-        optional($.note),
+        optional($.preparation),
       ),
 
     quantity: ($) =>
-      seq("{", optional(field("amount", $._quantity_content)), "}"),
+      seq("{", optional(field("amount", $._quantity_content)), $._quantity_close),
 
     _quantity_content: ($) => /[^}]+/,
 
-    note: ($) => seq("(", field("content", $.note_content), ")"),
+    preparation: ($) => seq("(", field("content", $.preparation_content), ")"),
 
     comment: ($) => field("content", $.comment_line),
 

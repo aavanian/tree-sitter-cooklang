@@ -82,8 +82,8 @@ timer: anonymous with note
   (step
     (timer
       (quantity)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 ===|||
 timer: named with note
@@ -98,8 +98,8 @@ timer: named with note
     (timer
       (timer_name)
       (quantity)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 ===|||
 timer: with hours unit

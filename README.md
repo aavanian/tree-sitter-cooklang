@@ -6,21 +6,18 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 
 * [x] BUG: fix ERROR when frontmatter.
 * [ ] BUG: fix multiline steps.
-* [ ] BUG: parenthesis not following a timer/ingredient/cookware shouldn't be preparations.
-* [ ] BUG: multiple preparations seem to be broken
+* [x] BUG: parenthesis not following a timer/ingredient/cookware shouldn't be preparations.
+* [x] BUG: multiple preparations seem to be broken
 * [x] BUG: comment (block or line) on the same line as step fail to parse if the step doesn't include cookware
 * [x] BUG: recipe_note mostly don't work (only > without other following character is recognized as a recipe_note). The parser expect newline then > and text to be a note, on same level as a step but not a step (it's text for the parser) and another newline to end the note.
 * [x] BUG: ~text without closing curly brackets shouldn't be parsed as a timer
-
-* [ ] IMPR: rename ingredient note in preparation(
+* [x] IMPR: rename ingredient note in preparation(
 * [ ] IMPR: make a pass on node names vs parser names)
 * [ ] IMPR: frontmatter granularity: show key/value
 * [ ] IMPR: the parser has section as containers of everything, except metadata. Even if not section is defined, an nameless one is assumed. Question is then whether tree-sitter need to represent the same or not. On one hand, it doesn't seem useful, on the other, it might bite back in the future
 * [ ] IMPR: recipe_reference is not implemented/parsed. This doesn't seem urgent. A first step would be to assign it a different node type for highlighting. Not sure if breaking down the path in component like the parser is necessary
 * [ ] IMPR: refine quantity node in amount + optional unit
-
 * [ ] DEPR: >> metadata is deprecated and can't coexist with yaml frontmatter. I don't know if tree-sitter need to handle the deprecation warning. Note that if frontmatter exist, then old-style metadata is parsed as a note... That seems a parser bug. For TS: questions are what to do if both are present?
-
 * [ ] FEAT: Syntax highlighting
 * [ ] Properly handle `unreserved_symbol`s.
 

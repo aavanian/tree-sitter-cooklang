@@ -88,8 +88,8 @@ edge_case: nested parenthesis
     (ingredient
       (ingredient_name)
       (quantity)
-      (note
-        (note_content)))))
+      (preparation
+        (preparation_content)))))
 
 ===|||
 edge_case: special characters
