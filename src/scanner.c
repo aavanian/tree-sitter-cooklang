@@ -1,8 +1,6 @@
 #include "tree_sitter/parser.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <string.h>
-#include <wctype.h>
 #include <stdlib.h>
 
 enum TokenType {
@@ -25,48 +23,11 @@ enum TokenType {
 };
 
 typedef struct {
-    uint32_t length;
-    uint32_t capacity;
-    char *data;
-} Buffer;
-
-typedef struct {
-    Buffer buffer;
     bool in_metadata;
     bool at_line_start;
     int paren_depth;
     bool whitespace_since_element;
 } Scanner;
-
-static inline void buffer_init(Buffer *buffer) {
-    buffer->length = 0;
-    buffer->capacity = 16;
-    buffer->data = malloc(buffer->capacity);
-}
-
-static inline void buffer_free(Buffer *buffer) {
-    free(buffer->data);
-}
-
-static inline void buffer_grow(Buffer *buffer, uint32_t min_capacity) {
-    uint32_t new_capacity = buffer->capacity;
-    while (new_capacity < min_capacity) {
-        new_capacity *= 2;
-    }
-    buffer->data = realloc(buffer->data, new_capacity);
-    buffer->capacity = new_capacity;
-}
-
-static inline void buffer_push(Buffer *buffer, char c) {
-    if (buffer->length + 1 >= buffer->capacity) {
-        buffer_grow(buffer, buffer->length + 2);
-    }
-    buffer->data[buffer->length++] = c;
-}
-
-static inline void buffer_clear(Buffer *buffer) {
-    buffer->length = 0;
-}
 
 static inline bool is_word_char(int32_t c) {
     return (c >= 'a' && c <= 'z') ||
@@ -81,31 +42,13 @@ static inline bool is_whitespace(int32_t c) {
     return c == ' ' || c == '\t';
 }
 
-static bool scan_word(TSLexer *lexer, Buffer *buffer) {
-    buffer_clear(buffer);
-
-    if (!is_word_char(lexer->lookahead) && lexer->lookahead != '.') {
-        return false;
-    }
-
-    while (is_word_char(lexer->lookahead) || lexer->lookahead == '.') {
-        buffer_push(buffer, lexer->lookahead);
-        lexer->advance(lexer, false);
-    }
-
-    return buffer->length > 0;
-}
-
-static bool scan_multiword(TSLexer *lexer, Buffer *buffer) {
-    buffer_clear(buffer);
-
+static bool scan_multiword(TSLexer *lexer) {
     // First word
     if (!is_word_char(lexer->lookahead)) {
         return false;
     }
 
     while (is_word_char(lexer->lookahead)) {
-        buffer_push(buffer, lexer->lookahead);
         lexer->advance(lexer, false);
     }
 
@@ -119,14 +62,12 @@ static bool scan_multiword(TSLexer *lexer, Buffer *buffer) {
 
     // Look ahead for more words
     while (is_whitespace(lexer->lookahead)) {
-        buffer_push(buffer, lexer->lookahead);
         lexer->advance(lexer, false);
 
         // After whitespace, check for another word
         if (is_word_char(lexer->lookahead)) {
             // Continue collecting the word
             while (is_word_char(lexer->lookahead)) {
-                buffer_push(buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
@@ -139,19 +80,16 @@ static bool scan_multiword(TSLexer *lexer, Buffer *buffer) {
         }
     }
 
-    return buffer->length > 0;
+    return true;
 }
 
 // Variant that only succeeds if followed by '{' (for timer names where quantity is required)
-static bool scan_multiword_require_quantity(TSLexer *lexer, Buffer *buffer) {
-    buffer_clear(buffer);
-
+static bool scan_multiword_require_quantity(TSLexer *lexer) {
     if (!is_word_char(lexer->lookahead)) {
         return false;
     }
 
     while (is_word_char(lexer->lookahead)) {
-        buffer_push(buffer, lexer->lookahead);
         lexer->advance(lexer, false);
     }
 
@@ -166,12 +104,10 @@ static bool scan_multiword_require_quantity(TSLexer *lexer, Buffer *buffer) {
 
     // Look ahead for more words, but only accept if we find a '{'
     while (is_whitespace(lexer->lookahead)) {
-        buffer_push(buffer, lexer->lookahead);
         lexer->advance(lexer, false);
 
         if (is_word_char(lexer->lookahead)) {
             while (is_word_char(lexer->lookahead)) {
-                buffer_push(buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
@@ -187,8 +123,7 @@ static bool scan_multiword_require_quantity(TSLexer *lexer, Buffer *buffer) {
     return found_quantity;
 }
 
-static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimiters) {
-    buffer_clear(buffer);
+static bool scan_text_until(TSLexer *lexer, const char *delimiters) {
     bool has_content = false;
 
     while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
@@ -201,7 +136,6 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
                 return has_content;
             }
             // Not a block comment, single bracket is part of text
-            buffer_push(buffer, '[');
             has_content = true;
             continue;
         }
@@ -211,28 +145,19 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
             lexer->mark_end(lexer);  // Mark position BEFORE ~
 
             // Scan ahead to check if { exists before newline
-            Buffer temp;
-            buffer_init(&temp);
-            buffer_push(&temp, '~');
             lexer->advance(lexer, false);
 
             // Skip past potential timer name
             while (lexer->lookahead != '{' && lexer->lookahead != '\n' && !lexer->eof(lexer)) {
-                buffer_push(&temp, lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
             if (lexer->lookahead == '{') {
                 // Valid timer start - text ends before ~
-                buffer_free(&temp);
                 return has_content;
             }
 
             // Not a valid timer - include everything we scanned as text
-            for (uint32_t i = 0; i < temp.length; i++) {
-                buffer_push(buffer, temp.data[i]);
-            }
-            buffer_free(&temp);
             has_content = true;
             lexer->mark_end(lexer);
             continue;
@@ -260,12 +185,10 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
                 return has_content;
             }
             // Not a comment, single dash is part of text
-            buffer_push(buffer, '-');
             has_content = true;
             continue;
         }
 
-        buffer_push(buffer, lexer->lookahead);
         has_content = true;
         lexer->advance(lexer, false);
     }
@@ -278,7 +201,6 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
 
 void *tree_sitter_cooklang_external_scanner_create() {
     Scanner *scanner = malloc(sizeof(Scanner));
-    buffer_init(&scanner->buffer);
     scanner->in_metadata = false;
     scanner->at_line_start = true;
     scanner->paren_depth = 0;
@@ -288,7 +210,6 @@ void *tree_sitter_cooklang_external_scanner_create() {
 
 void tree_sitter_cooklang_external_scanner_destroy(void *payload) {
     Scanner *scanner = (Scanner *)payload;
-    buffer_free(&scanner->buffer);
     free(scanner);
 }
 
@@ -319,9 +240,8 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         lexer->advance(lexer, false);
         if (lexer->lookahead == '-') {
             lexer->advance(lexer, false);
-            
+
             // Block comment - scan until -]
-            buffer_clear(&scanner->buffer);
             while (!lexer->eof(lexer)) {
                 if (lexer->lookahead == '-') {
                     lexer->advance(lexer, false);
@@ -329,13 +249,11 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                         lexer->advance(lexer, false);
                         break;
                     }
-                    buffer_push(&scanner->buffer, '-');
                 } else {
-                    buffer_push(&scanner->buffer, lexer->lookahead);
                     lexer->advance(lexer, false);
                 }
             }
-            
+
             // Don't update at_line_start for block comments
             lexer->result_symbol = COMMENT_BLOCK;
             return true;
@@ -352,7 +270,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         scanner->whitespace_since_element = true;
         return true;
     }
-    
+
     // Skip whitespace if not handling it as a token
     while (is_whitespace(lexer->lookahead)) {
         lexer->advance(lexer, true);
@@ -412,13 +330,12 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             lexer->advance(lexer, false);
         }
 
-        buffer_clear(&scanner->buffer);
-        bool first_line = true;
+        bool has_content = false;
 
         while (!lexer->eof(lexer)) {
             // Scan content until end of line
             while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
-                buffer_push(&scanner->buffer, lexer->lookahead);
+                has_content = true;
                 lexer->advance(lexer, false);
             }
 
@@ -444,16 +361,10 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                     lexer->advance(lexer, false);
                 }
             }
-
-            // Add a space to separate lines in the buffer (for the text content)
-            if (scanner->buffer.length > 0) {
-                buffer_push(&scanner->buffer, ' ');
-            }
-            first_line = false;
         }
 
         // Only return a token if we have content
-        if (scanner->buffer.length > 0) {
+        if (has_content) {
             scanner->at_line_start = false;
             lexer->result_symbol = RECIPE_NOTE_TEXT;
             return true;
@@ -473,22 +384,14 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                 lexer->advance(lexer, false);
             }
 
-            // Scan metadata key (can be multi-word)
-            buffer_clear(&scanner->buffer);
-            bool has_key = false;
+            // Scan metadata key (can be multi-word); reject all-whitespace keys
+            bool has_non_ws = false;
             while (!lexer->eof(lexer) && lexer->lookahead != ':' && lexer->lookahead != '\n') {
-                buffer_push(&scanner->buffer, lexer->lookahead);
-                has_key = true;
+                has_non_ws = has_non_ws || !is_whitespace(lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
-            // Trim trailing whitespace
-            while (scanner->buffer.length > 0 &&
-                   is_whitespace(scanner->buffer.data[scanner->buffer.length - 1])) {
-                scanner->buffer.length--;
-            }
-
-            if (has_key && scanner->buffer.length > 0) {
+            if (has_non_ws) {
                 scanner->in_metadata = true;
                 scanner->at_line_start = false;
                 lexer->result_symbol = METADATA_KEY;
@@ -513,13 +416,13 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         }
 
         // Scan until end of line
-        buffer_clear(&scanner->buffer);
+        bool has_content = false;
         while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
-            buffer_push(&scanner->buffer, lexer->lookahead);
+            has_content = true;
             lexer->advance(lexer, false);
         }
 
-        if (scanner->buffer.length > 0) {
+        if (has_content) {
             scanner->in_metadata = false;
             lexer->result_symbol = METADATA_VALUE;
             return true;
@@ -541,16 +444,8 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             }
 
             // Scan section name
-            buffer_clear(&scanner->buffer);
             while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '=') {
-                buffer_push(&scanner->buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
-            }
-
-            // Trim trailing whitespace from buffer
-            while (scanner->buffer.length > 0 &&
-                   is_whitespace(scanner->buffer.data[scanner->buffer.length - 1])) {
-                scanner->buffer.length--;
             }
 
             // Skip trailing equals
@@ -585,12 +480,6 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             // Otherwise, reprocess as comment
             // We've already consumed some dashes, so include them in the comment
             if (dash_count >= 2) {
-                buffer_clear(&scanner->buffer);
-                // Add any extra dashes beyond the first 2
-                for (int i = 2; i < dash_count; i++) {
-                    buffer_push(&scanner->buffer, '-');
-                }
-
                 // Skip optional space after --
                 while (is_whitespace(lexer->lookahead)) {
                     lexer->advance(lexer, false);
@@ -598,7 +487,6 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
                 // Continue with rest of line
                 while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
-                    buffer_push(&scanner->buffer, lexer->lookahead);
                     lexer->advance(lexer, false);
                 }
 
@@ -613,16 +501,14 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         lexer->advance(lexer, false);
         if (lexer->lookahead == '-') {
             lexer->advance(lexer, false);
-            
+
             // Skip optional space after --
             while (is_whitespace(lexer->lookahead)) {
                 lexer->advance(lexer, false);
             }
 
             // Line comment
-            buffer_clear(&scanner->buffer);
             while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
-                buffer_push(&scanner->buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
             }
 
@@ -637,12 +523,9 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
     if (valid_symbols[INGREDIENT_NAME]) {
         // Check for recipe reference (starts with . and / or \)
         if (lexer->lookahead == '.') {
-            buffer_clear(&scanner->buffer);
-            buffer_push(&scanner->buffer, lexer->lookahead);
             lexer->advance(lexer, false);
 
             if (lexer->lookahead == '/' || lexer->lookahead == '\\') {
-                buffer_push(&scanner->buffer, lexer->lookahead);
                 lexer->advance(lexer, false);
 
                 // Consume path characters
@@ -650,7 +533,6 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                        lexer->lookahead != '(' && lexer->lookahead != '\n' &&
                        lexer->lookahead != '@' && lexer->lookahead != '#' &&
                        lexer->lookahead != '~') {
-                    buffer_push(&scanner->buffer, lexer->lookahead);
                     lexer->advance(lexer, false);
                 }
 
@@ -662,7 +544,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         }
 
         // Regular ingredient name
-        if (scan_multiword(lexer, &scanner->buffer)) {
+        if (scan_multiword(lexer)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = INGREDIENT_NAME;
@@ -672,7 +554,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle cookware names (after #)
     if (valid_symbols[COOKWARE_NAME]) {
-        if (scan_multiword(lexer, &scanner->buffer)) {
+        if (scan_multiword(lexer)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = COOKWARE_NAME;
@@ -682,7 +564,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle timer names (after ~) - only match if followed by '{'
     if (valid_symbols[TIMER_NAME]) {
-        if (scan_multiword_require_quantity(lexer, &scanner->buffer)) {
+        if (scan_multiword_require_quantity(lexer)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = TIMER_NAME;
@@ -703,13 +585,13 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         if (scanner->whitespace_since_element) {
             return false;
         }
-        buffer_clear(&scanner->buffer);
+        bool has_content = false;
         int paren_depth = scanner->paren_depth;
 
         while (!lexer->eof(lexer)) {
             if (lexer->lookahead == '(') {
                 paren_depth++;
-                buffer_push(&scanner->buffer, lexer->lookahead);
+                has_content = true;
                 lexer->advance(lexer, false);
             } else if (lexer->lookahead == ')') {
                 if (paren_depth == 0) {
@@ -717,18 +599,18 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                     break;
                 }
                 paren_depth--;
-                buffer_push(&scanner->buffer, lexer->lookahead);
+                has_content = true;
                 lexer->advance(lexer, false);
             } else if (lexer->lookahead == '\n') {
                 // Notes can't span lines in standard Cooklang
                 break;
             } else {
-                buffer_push(&scanner->buffer, lexer->lookahead);
+                has_content = true;
                 lexer->advance(lexer, false);
             }
         }
 
-        if (scanner->buffer.length > 0) {
+        if (has_content) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = true;
             lexer->result_symbol = PREPARATION_CONTENT;
@@ -755,7 +637,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         // Stop at ( only when immediately after an element — preparation may follow.
         // Otherwise ( is ordinary text.
         const char *delimiters = scanner->whitespace_since_element ? "@#{}" : "@#{}(";
-        if (scan_text_until(lexer, &scanner->buffer, delimiters)) {
+        if (scan_text_until(lexer, delimiters)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = true;
             lexer->result_symbol = TEXT_CONTENT;
