@@ -42,6 +42,10 @@ any empty lines between.
 (recipe
   (step
     (text
+      (text_content))
+    (text
+      (text_content))
+    (text
       (text_content))))
 
 ============================|||

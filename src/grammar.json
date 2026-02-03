@@ -217,11 +217,35 @@
       }
     },
     "step": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_step_content"
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_step_content"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_step_newline"
+              },
+              {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_step_content"
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "_step_content": {
       "type": "CHOICE",
@@ -496,6 +520,10 @@
     {
       "type": "SYMBOL",
       "name": "_newline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_step_newline"
     },
     {
       "type": "SYMBOL",

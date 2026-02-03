@@ -36,7 +36,7 @@ recipe line
     (metadata_value)))
 
 ===|||
-metadata: skip 2 lines (multiline step bug acknowledged here)
+metadata: multiline step between metadata
 ===|||
 
 >> hello: test
@@ -51,11 +51,10 @@ recipe line
 (recipe
   (metadata
     (metadata_key)
-    (metadata_value)) 
+    (metadata_value))
   (step
     (text
-      (text_content)))
-  (step
+      (text_content))
     (text
       (text_content)))
   (metadata

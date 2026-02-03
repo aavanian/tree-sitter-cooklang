@@ -7,6 +7,7 @@
 
 enum TokenType {
     NEWLINE,
+    STEP_NEWLINE,
     INGREDIENT_NAME,
     COOKWARE_NAME,
     TIMER_NAME,
@@ -373,9 +374,24 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle newlines
     if (lexer->lookahead == '\n') {
+        lexer->advance(lexer, false);
+        scanner->at_line_start = true;
+
+        if (valid_symbols[STEP_NEWLINE]) {
+            // Continuation: next line is non-blank and doesn't start a special construct
+            bool continuation = !lexer->eof(lexer) &&
+                                lexer->lookahead != '\n' &&
+                                lexer->lookahead != '=' &&
+                                lexer->lookahead != '>' &&
+                                lexer->lookahead != '-' &&
+                                lexer->lookahead != '[';
+            if (continuation) {
+                lexer->result_symbol = STEP_NEWLINE;
+                return true;
+            }
+        }
+
         if (valid_symbols[NEWLINE]) {
-            lexer->advance(lexer, false);
-            scanner->at_line_start = true;
             lexer->result_symbol = NEWLINE;
             return true;
         }

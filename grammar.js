@@ -3,6 +3,7 @@ module.exports = grammar({
 
   externals: ($) => [
     $._newline,
+    $._step_newline,
     $.ingredient_name,
     $.cookware_name,
     $.timer_name,
@@ -59,7 +60,11 @@ module.exports = grammar({
 
     section: ($) => field("name", $.section_name),
 
-    step: ($) => repeat1($._step_content),
+    step: ($) =>
+      seq(
+        repeat1($._step_content),
+        repeat(seq($._step_newline, repeat1($._step_content))),
+      ),
 
     _step_content: ($) =>
       choice($.text, $.ingredient, $.cookware, $.timer),
