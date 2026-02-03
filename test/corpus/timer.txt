@@ -20,8 +20,9 @@ timer: a timer must have a quantity!
 ---|||
 
 (recipe
-  (text
-    (text_content)))
+  (step
+    (text
+      (text_content))))
 
 =========================================================|||
 timer: a timer must have a quantity! a note is not enough
@@ -32,8 +33,9 @@ timer: a timer must have a quantity! a note is not enough
 ---|||
 
 (recipe
-  (text
-    (text_content)))
+  (step
+    (text
+      (text_content))))
 
 ===|||
 timer: multiple

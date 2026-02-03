@@ -139,6 +139,51 @@ static bool scan_multiword(TSLexer *lexer, Buffer *buffer) {
     return buffer->length > 0;
 }
 
+// Variant that only succeeds if followed by '{' (for timer names where quantity is required)
+static bool scan_multiword_require_quantity(TSLexer *lexer, Buffer *buffer) {
+    buffer_clear(buffer);
+
+    if (!is_word_char(lexer->lookahead)) {
+        return false;
+    }
+
+    while (is_word_char(lexer->lookahead)) {
+        buffer_push(buffer, lexer->lookahead);
+        lexer->advance(lexer, false);
+    }
+
+    // Check if we have a quantity immediately following
+    if (lexer->lookahead == '{') {
+        return true;
+    }
+
+    // Save position after first word
+    lexer->mark_end(lexer);
+    bool found_quantity = false;
+
+    // Look ahead for more words, but only accept if we find a '{'
+    while (is_whitespace(lexer->lookahead)) {
+        buffer_push(buffer, lexer->lookahead);
+        lexer->advance(lexer, false);
+
+        if (is_word_char(lexer->lookahead)) {
+            while (is_word_char(lexer->lookahead)) {
+                buffer_push(buffer, lexer->lookahead);
+                lexer->advance(lexer, false);
+            }
+
+            if (lexer->lookahead == '{') {
+                lexer->mark_end(lexer);
+                found_quantity = true;
+            }
+        } else {
+            break;
+        }
+    }
+
+    return found_quantity;
+}
+
 static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimiters) {
     buffer_clear(buffer);
     bool has_content = false;
@@ -146,18 +191,51 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
     while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
         // Check for block comment start [-
         if (lexer->lookahead == '[') {
+            lexer->mark_end(lexer);  // Mark position BEFORE bracket
             lexer->advance(lexer, false);
             if (lexer->lookahead == '-') {
-                // It's a block comment, backtrack
+                // Block comment start - token ends at mark (before bracket)
                 return has_content;
             }
-            // Not a block comment, include the [
+            // Not a block comment, single bracket is part of text
             buffer_push(buffer, '[');
             has_content = true;
             continue;
         }
 
-        // Check if we hit any delimiter
+        // Check for ~ - only stop if followed by valid timer pattern ({...} before newline)
+        if (lexer->lookahead == '~') {
+            lexer->mark_end(lexer);  // Mark position BEFORE ~
+
+            // Scan ahead to check if { exists before newline
+            Buffer temp;
+            buffer_init(&temp);
+            buffer_push(&temp, '~');
+            lexer->advance(lexer, false);
+
+            // Skip past potential timer name
+            while (lexer->lookahead != '{' && lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+                buffer_push(&temp, lexer->lookahead);
+                lexer->advance(lexer, false);
+            }
+
+            if (lexer->lookahead == '{') {
+                // Valid timer start - text ends before ~
+                buffer_free(&temp);
+                return has_content;
+            }
+
+            // Not a valid timer - include everything we scanned as text
+            for (uint32_t i = 0; i < temp.length; i++) {
+                buffer_push(buffer, temp.data[i]);
+            }
+            buffer_free(&temp);
+            has_content = true;
+            lexer->mark_end(lexer);
+            continue;
+        }
+
+        // Check if we hit any delimiter (excluding ~ which is handled above)
         bool is_delimiter = false;
         for (const char *d = delimiters; *d; d++) {
             if (lexer->lookahead == *d) {
@@ -170,13 +248,15 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
             break;
         }
 
-        // Check for comment start
+        // Check for comment start (--)
         if (lexer->lookahead == '-') {
+            lexer->mark_end(lexer);  // Mark position BEFORE first dash
             lexer->advance(lexer, false);
             if (lexer->lookahead == '-') {
-                // Backtrack by not including the dash
+                // Comment start - token ends at mark (before first dash)
                 return has_content;
             }
+            // Not a comment, single dash is part of text
             buffer_push(buffer, '-');
             has_content = true;
             continue;
@@ -187,6 +267,9 @@ static bool scan_text_until(TSLexer *lexer, Buffer *buffer, const char *delimite
         lexer->advance(lexer, false);
     }
 
+    if (has_content) {
+        lexer->mark_end(lexer);
+    }
     return has_content;
 }
 
@@ -572,9 +655,9 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         }
     }
 
-    // Handle timer names (after ~)
+    // Handle timer names (after ~) - only match if followed by '{'
     if (valid_symbols[TIMER_NAME]) {
-        if (scan_multiword(lexer, &scanner->buffer)) {
+        if (scan_multiword_require_quantity(lexer, &scanner->buffer)) {
             scanner->at_line_start = false;
             lexer->result_symbol = TIMER_NAME;
             return true;
@@ -631,7 +714,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             }
         }
 
-        if (scan_text_until(lexer, &scanner->buffer, "@#~{}()")) {
+        if (scan_text_until(lexer, &scanner->buffer, "@#{}()")) {
             scanner->at_line_start = false;
             lexer->result_symbol = TEXT_CONTENT;
             return true;
