@@ -23,7 +23,9 @@ ingredient: with decimal quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===============================|||
 ingredient: with empty quantity
@@ -51,7 +53,9 @@ ingredient: with fractional quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ================================|||
 ingredient: with multi-word name
@@ -65,7 +69,8 @@ ingredient: with multi-word name
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ===================================|||
 ingredient: with quantity only
@@ -79,7 +84,8 @@ ingredient: with quantity only
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ===================================|||
 ingredient: with quantity and unit
@@ -93,7 +99,9 @@ ingredient: with quantity and unit
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 =====================|||
 ingredient: with note
@@ -122,7 +130,8 @@ ingredient: with quantity and note
   (step
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))))
 
@@ -140,9 +149,13 @@ Mix @flour{2%cups} with @water{1%cup}
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))

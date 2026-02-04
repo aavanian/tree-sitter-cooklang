@@ -6,7 +6,7 @@ section: empty section
 
 ---|||
 
-(recipe 
+(recipe
   (section
     (section_name)))
 
@@ -19,7 +19,7 @@ step after nameless section
 
 ---|||
 
-(recipe 
+(recipe
   (section
     (section_name))
   (step
@@ -43,17 +43,21 @@ Mix @flour{200%g} and @water{100%ml} together.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))))
 
 ===|||
-section: simple section with space before step 
+section: simple section with space before step
 ===|||
 
 = Dough
@@ -70,12 +74,16 @@ Mix @flour{200%g} and @water{100%ml} together.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))))
 
@@ -96,7 +104,9 @@ Add @cheese{100%g}.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))))
 
@@ -173,7 +183,9 @@ Cook for ~{45%minutes}.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (cookware
@@ -185,7 +197,9 @@ Cook for ~{45%minutes}.
     (text
       (text_content))
     (timer
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))))
 

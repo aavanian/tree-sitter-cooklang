@@ -162,7 +162,28 @@
   {
     "type": "quantity",
     "named": true,
-    "fields": {}
+    "fields": {
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "quantity_unit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "quantity_value",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -305,6 +326,10 @@
     "named": false
   },
   {
+    "type": "%",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -354,6 +379,14 @@
   },
   {
     "type": "preparation_content",
+    "named": true
+  },
+  {
+    "type": "quantity_unit",
+    "named": true
+  },
+  {
+    "type": "quantity_value",
     "named": true
   },
   {

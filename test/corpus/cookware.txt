@@ -37,7 +37,8 @@ cookware: with quantity
   (step
     (cookware
       (cookware_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 =========================|||
 cookware: multi-word name
@@ -51,7 +52,8 @@ cookware: multi-word name
   (step
     (cookware
       (cookware_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ===================|||
 cookware: with note
@@ -65,7 +67,8 @@ cookware: with note
   (step
     (cookware
       (cookware_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))))
 
@@ -88,4 +91,3 @@ Place in #oven on #baking sheet{}
     (cookware
       (cookware_name)
       (quantity))))
-

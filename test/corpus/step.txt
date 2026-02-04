@@ -67,16 +67,22 @@ In a #large pot{}, combine @water{2%L}, @salt{1%tsp}, and heat for ~{10%minutes}
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (timer
-        (quantity)))
+        (quantity
+          (quantity_value)
+          (quantity_unit))))
     (comment
       (comment_line)))
 
@@ -94,7 +100,9 @@ Mix @flour{2%cups}
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 =======================================================|||
 step: 2 steps with ingredient, cookware, timer and note
@@ -117,7 +125,9 @@ Add @onions{2}(diced) and cook ~{5%minutes}.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content)))
   (step
@@ -125,12 +135,15 @@ Add @onions{2}(diced) and cook ~{5%minutes}.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))
     (text
       (text_content))
     (timer
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))))

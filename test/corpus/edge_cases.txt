@@ -15,7 +15,9 @@ edge_case: adjacent symbols
       (cookware_name)
       (quantity))
     (timer
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 edge_case: all elements in one line
@@ -51,11 +53,15 @@ In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (timer
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (block_comment
       (comment_block))
     (text
@@ -73,7 +79,9 @@ edge_case: escape character - do not handle it
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 edge_case: nested parenthesis
@@ -87,7 +95,8 @@ edge_case: nested parenthesis
   (step
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))))
 
@@ -124,7 +133,9 @@ edge_case: unicode in ingredient
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 edge_case: long multi word ingredient
@@ -138,4 +149,5 @@ edge_case: long multi word ingredient
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))

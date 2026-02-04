@@ -31,7 +31,9 @@ Cook for ~{10%minutes}(stirring occasionally).
     (text
       (text_content))
     (timer
-      (quantity)
+      (quantity
+        (quantity_value)
+        (quantity_unit))
       (preparation
         (preparation_content)))
     (text
@@ -90,14 +92,17 @@ Mix @onion{1}(peeled and finely chopped) and @garlic{2%cloves}(peeled and minced
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value)
+        (quantity_unit))
       (preparation
         (preparation_content)))
     (text
@@ -117,7 +122,8 @@ Add @tomatoes{4}(washed, cored, and cut into 1/4-inch slices).
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity)
+      (quantity
+        (quantity_value))
       (preparation
         (preparation_content)))
     (text
@@ -208,7 +214,9 @@ This is a step with an ~timer{1%s}(and a preparation) and more text after.
       (text_content))
     (timer
       (timer_name)
-      (quantity)
+      (quantity
+        (quantity_value)
+        (quantity_unit))
       (preparation
         (preparation_content)))
     (text
@@ -233,4 +241,3 @@ This is a step with an @ingredient{}(and a preparation) but this doesn't immedia
         (preparation_content)))
     (text
       (text_content))))
-

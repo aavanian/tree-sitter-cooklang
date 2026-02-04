@@ -20,6 +20,8 @@ enum TokenType {
     RECIPE_NOTE_TEXT,
     WHITESPACE_TOKEN,
     QUANTITY_CLOSE,
+    QUANTITY_VALUE,
+    QUANTITY_UNIT,
     TOKEN_EOF
 };
 
@@ -570,6 +572,120 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             lexer->result_symbol = TIMER_NAME;
             return true;
         }
+    }
+
+    // Scan the numeric or non-numeric value inside a quantity (before unit or close)
+    if (valid_symbols[QUANTITY_VALUE]) {
+        if (lexer->lookahead == '}' || lexer->lookahead == '\n' || lexer->eof(lexer)) {
+            // guard: empty quantity — let optional not be taken
+        } else if (lexer->lookahead < '0' || lexer->lookahead > '9') {
+            // Non-numeric value (e.g. "to taste"): scan until '%' or '}',
+            // trimming trailing whitespace via mark_end.
+            bool has_content = false;
+            while (!lexer->eof(lexer) && lexer->lookahead != '}' &&
+                   lexer->lookahead != '%' && lexer->lookahead != '\n') {
+                if (!is_whitespace(lexer->lookahead)) {
+                    lexer->advance(lexer, false);
+                    lexer->mark_end(lexer);
+                    has_content = true;
+                } else {
+                    lexer->advance(lexer, false);
+                }
+            }
+            if (has_content) {
+                lexer->result_symbol = QUANTITY_VALUE;
+                return true;
+            }
+        } else {
+            // Numeric path: scan integer part
+            while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                lexer->advance(lexer, false);
+            }
+            lexer->mark_end(lexer); // tentative end = integer
+
+            if (lexer->lookahead == '.') {
+                lexer->advance(lexer, false); // consume '.'
+                if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                    while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                        lexer->advance(lexer, false);
+                    }
+                    lexer->mark_end(lexer); // decimal number
+                }
+                lexer->result_symbol = QUANTITY_VALUE;
+                return true;
+            }
+
+            // Peek past whitespace (no mark_end — peeking)
+            while (is_whitespace(lexer->lookahead)) {
+                lexer->advance(lexer, false);
+            }
+
+            if (lexer->lookahead == '/') {
+                // Simple fraction: "5 / 2" or "5/2"
+                lexer->advance(lexer, false); // consume '/'
+                while (is_whitespace(lexer->lookahead)) {
+                    lexer->advance(lexer, false);
+                }
+                if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                    while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                        lexer->advance(lexer, false);
+                    }
+                    lexer->mark_end(lexer); // confirmed fraction
+                }
+                lexer->result_symbol = QUANTITY_VALUE;
+                return true;
+            }
+
+            if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                // Mixed fraction candidate: "1 1/2"
+                // We've already peeked past whitespace. Save state by scanning
+                // the second integer without marking end yet.
+                while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                    lexer->advance(lexer, false);
+                }
+                if (lexer->lookahead == '/') {
+                    lexer->advance(lexer, false); // consume '/'
+                    if (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                        while (lexer->lookahead >= '0' && lexer->lookahead <= '9') {
+                            lexer->advance(lexer, false);
+                        }
+                        lexer->mark_end(lexer); // confirmed mixed fraction
+                    }
+                }
+                // If no '/' or no denominator digits, mark_end stays at first integer.
+                // Lexer resets to that position.
+                lexer->result_symbol = QUANTITY_VALUE;
+                return true;
+            }
+
+            // No fraction pattern — return with mark_end at the integer
+            lexer->result_symbol = QUANTITY_VALUE;
+            return true;
+        }
+    }
+
+    // Scan the unit part inside a quantity (after value, before close brace).
+    // Guard against '%': external tokens have priority over literals, so without
+    // this guard QUANTITY_UNIT would swallow the '%' separator.
+    if (valid_symbols[QUANTITY_UNIT]) {
+        if (lexer->lookahead != '}' && lexer->lookahead != '%' &&
+            lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+            bool has_content = false;
+            while (!lexer->eof(lexer) && lexer->lookahead != '}' && lexer->lookahead != '\n') {
+                if (!is_whitespace(lexer->lookahead)) {
+                    lexer->advance(lexer, false);
+                    lexer->mark_end(lexer);
+                    has_content = true;
+                } else {
+                    lexer->advance(lexer, false);
+                }
+            }
+            if (has_content) {
+                lexer->result_symbol = QUANTITY_UNIT;
+                return true;
+            }
+        }
+        // Fall through to QUANTITY_CLOSE if guard triggered or no content found
     }
 
     // Handle quantity close brace - tracked externally to reset whitespace flag

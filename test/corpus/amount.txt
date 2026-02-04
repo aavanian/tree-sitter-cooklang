@@ -10,7 +10,8 @@ amount: integer quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ========================|||
 amount: decimal quantity
@@ -24,7 +25,8 @@ amount: decimal quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ===========================|||
 amount: fractional quantity
@@ -38,7 +40,8 @@ amount: fractional quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 =======================================|||
 amount: fractional quantity with spaces
@@ -52,7 +55,8 @@ amount: fractional quantity with spaces
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)))))
 
 ======================|||
 amount: large quantity
@@ -66,7 +70,9 @@ amount: large quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===============================|||
 amount: mixed fraction quantity
@@ -80,7 +86,9 @@ amount: mixed fraction quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 =============================|||
 amount: unit with % separator
@@ -94,7 +102,9 @@ amount: unit with % separator
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 =================================|||
 amount: unit with space separator
@@ -108,7 +118,9 @@ amount: unit with space separator
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 =================================|||
 amount: zero quantity
@@ -122,5 +134,21 @@ amount: zero quantity
   (step
     (ingredient
       (ingredient_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
+================================|||
+amount: non-numeric value
+================================|||
+
+@ingredient{to taste}
+
+---|||
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity
+        (quantity_value)))))

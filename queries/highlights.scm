@@ -29,7 +29,9 @@
 (timer name: (timer_name) @constant)
 
 ; Amounts
-(quantity) @number
+(quantity_value) @number
+(quantity_unit) @type
+(quantity "%") @operator
 
 ; Brackets
 "{" @punctuation.bracket

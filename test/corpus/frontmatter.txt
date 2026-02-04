@@ -44,12 +44,16 @@ Add the @flour{650%g} and @salt{1%tsp} to the #mixing bowl{}. Mix on low speed f
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (cookware

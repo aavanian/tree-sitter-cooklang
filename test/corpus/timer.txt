@@ -9,7 +9,9 @@ timer: anonymous
 (recipe
   (step
     (timer
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ====================================|||
 timer: a timer must have a quantity!
@@ -50,11 +52,15 @@ Cook for ~{5%minutes}, then simmer ~{20%minutes}
     (text
       (text_content))
     (timer
-      (quantity))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))
     (text
       (text_content))
     (timer
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 timer: named
@@ -68,7 +74,9 @@ timer: named
   (step
     (timer
       (timer_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 timer: anonymous with note
@@ -81,7 +89,9 @@ timer: anonymous with note
 (recipe
   (step
     (timer
-      (quantity)
+      (quantity
+        (quantity_value)
+        (quantity_unit))
       (preparation
         (preparation_content)))))
 
@@ -97,7 +107,9 @@ timer: named with note
   (step
     (timer
       (timer_name)
-      (quantity)
+      (quantity
+        (quantity_value)
+        (quantity_unit))
       (preparation
         (preparation_content)))))
 
@@ -113,7 +125,9 @@ timer: with hours unit
   (step
     (timer
       (timer_name)
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))
 
 ===|||
 timer: with decimal hours unit
@@ -126,4 +140,6 @@ timer: with decimal hours unit
 (recipe
   (step
     (timer
-      (quantity))))
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))

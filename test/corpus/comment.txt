@@ -74,7 +74,9 @@ Cook slowly for ~{6%hours} -- patience is key
     (text
       (text_content))
     (timer
-      (quantity)))
+      (quantity
+        (quantity_value)
+        (quantity_unit))))
   (comment
     (comment_line)))
 
@@ -104,7 +106,9 @@ Mash @potato{2%kg} [- TODO change units to litres -]
       (text_content))
     (ingredient
       (ingredient_name)
-      (quantity)))
+      (quantity
+        (quantity_value)
+        (quantity_unit))))
   (block_comment
     (comment_block)))
 
@@ -150,7 +154,7 @@ comment: no parsing ingredient in line comment
 
 ---|||
 
-(recipe 
+(recipe
   (comment
     (comment_line)))
 
@@ -162,6 +166,6 @@ comment: no parsing ingredient in block comment
 
 ---|||
 
-(recipe 
+(recipe
   (block_comment
     (comment_block)))

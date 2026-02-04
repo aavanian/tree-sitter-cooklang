@@ -18,6 +18,8 @@ module.exports = grammar({
     $.recipe_note_text,
     $._whitespace_token,
     $._quantity_close,
+    $.quantity_value,
+    $.quantity_unit,
     $._eof,
   ],
 
@@ -110,9 +112,16 @@ module.exports = grammar({
       ),
 
     quantity: ($) =>
-      seq("{", optional(field("amount", $._quantity_content)), $._quantity_close),
-
-    _quantity_content: ($) => /[^}]+/,
+      seq(
+        "{",
+        optional(
+          seq(
+            field("value", $.quantity_value),
+            optional(seq(optional("%"), field("unit", $.quantity_unit))),
+          ),
+        ),
+        $._quantity_close,
+      ),
 
     preparation: ($) => seq("(", field("content", $.preparation_content), ")"),
 
