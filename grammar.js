@@ -29,18 +29,31 @@ module.exports = grammar({
 
   rules: {
     recipe: ($) =>
-      seq(
-        optional($.frontmatter),
-        repeat(
-          choice(
-            seq($.metadata, $._newline),
-            seq($.section, $._newline),
-            seq($.step, $._newline),
-            seq($.recipe_note, $._newline),
-            $._newline,
+      choice(
+        seq(
+          $.frontmatter,
+          repeat(
+            choice(
+              seq($.section, $._newline),
+              seq($.step, $._newline),
+              seq($.recipe_note, $._newline),
+              $._newline,
+            ),
           ),
+          optional(choice($.section, $.step, $.recipe_note)),
         ),
-        optional(choice($.metadata, $.section, $.step, $.recipe_note)),
+        seq(
+          repeat(
+            choice(
+              seq($.metadata, $._newline),
+              seq($.section, $._newline),
+              seq($.step, $._newline),
+              seq($.recipe_note, $._newline),
+              $._newline,
+            ),
+          ),
+          optional(choice($.metadata, $.section, $.step, $.recipe_note)),
+        ),
       ),
 
     // Frontmatter allows optional leading blank lines (for test format compatibility)

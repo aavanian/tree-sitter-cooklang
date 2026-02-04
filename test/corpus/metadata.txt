@@ -132,3 +132,22 @@ Cook the dish.
   (metadata
     (metadata_key)
     (metadata_value)))
+
+===|||
+metadata: old-style mixed with frontmatter should be parsed as a step
+===|||
+
+---
+title: a problem with old-style metadata?
+---
+
+>> what do we have here?
+
+---|||
+
+(recipe
+  (frontmatter
+    (frontmatter_content))
+  (step
+    (text
+      (text_content))))

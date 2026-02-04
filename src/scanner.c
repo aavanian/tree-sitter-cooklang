@@ -392,7 +392,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                 lexer->advance(lexer, false);
             }
 
-            if (has_non_ws) {
+            if (has_non_ws && lexer->lookahead == ':') {
                 scanner->in_metadata = true;
                 scanner->at_line_start = false;
                 lexer->result_symbol = METADATA_KEY;
@@ -627,10 +627,23 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             // '-' could be comment (--) or frontmatter (---)
             // '=' is section header
             // '[' could be block comment ([-)
-            // '>' is recipe_note or metadata (>>)
             if (lexer->lookahead == '-' || lexer->lookahead == '=' ||
-                lexer->lookahead == '[' || lexer->lookahead == '>') {
+                lexer->lookahead == '[') {
                 return false;
+            }
+            if (lexer->lookahead == '>') {
+                lexer->advance(lexer, false);
+                if (lexer->lookahead != '>') {
+                    // Single '>' — defer to recipe_note
+                    return false;
+                }
+                if (valid_symbols[METADATA_KEY]) {
+                    // '>>' with metadata valid — defer to metadata handler
+                    return false;
+                }
+                // '>>' with metadata not valid (frontmatter present):
+                // first '>' already consumed; fall through to scan_text_until
+                // which picks up from the second '>'.  Token start is col 0.
             }
         }
 
