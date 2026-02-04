@@ -5,6 +5,7 @@ module.exports = grammar({
     $._newline,
     $._step_newline,
     $.ingredient_name,
+    $.recipe_reference,
     $.cookware_name,
     $.timer_name,
     $.text_content,
@@ -74,7 +75,7 @@ module.exports = grammar({
     ingredient: ($) =>
       seq(
         "@",
-        field("name", $.ingredient_name),
+        field("name", choice($.ingredient_name, $.recipe_reference)),
         optional($.quantity),
         optional($.preparation),
       ),

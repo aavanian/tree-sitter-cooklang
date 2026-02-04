@@ -94,6 +94,10 @@
           {
             "type": "ingredient_name",
             "named": true
+          },
+          {
+            "type": "recipe_reference",
+            "named": true
           }
         ]
       }
@@ -354,6 +358,10 @@
   },
   {
     "type": "recipe_note_text",
+    "named": true
+  },
+  {
+    "type": "recipe_reference",
     "named": true
   },
   {

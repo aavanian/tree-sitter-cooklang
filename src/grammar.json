@@ -283,8 +283,17 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "ingredient_name"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ingredient_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "recipe_reference"
+              }
+            ]
           }
         },
         {
@@ -528,6 +537,10 @@
     {
       "type": "SYMBOL",
       "name": "ingredient_name"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "recipe_reference"
     },
     {
       "type": "SYMBOL",

@@ -7,6 +7,7 @@ enum TokenType {
     NEWLINE,
     STEP_NEWLINE,
     INGREDIENT_NAME,
+    RECIPE_REFERENCE,
     COOKWARE_NAME,
     TIMER_NAME,
     TEXT_CONTENT,
@@ -519,31 +520,30 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
     }
 
 
-    // Handle ingredient names (after @)
-    if (valid_symbols[INGREDIENT_NAME]) {
-        // Check for recipe reference (starts with . and / or \)
-        if (lexer->lookahead == '.') {
+    // Handle recipe references (after @, starts with ./ or .\)
+    if (valid_symbols[RECIPE_REFERENCE] && lexer->lookahead == '.') {
+        lexer->advance(lexer, false);
+
+        if (lexer->lookahead == '/' || lexer->lookahead == '\\') {
             lexer->advance(lexer, false);
 
-            if (lexer->lookahead == '/' || lexer->lookahead == '\\') {
+            // Consume path characters
+            while (!lexer->eof(lexer) && lexer->lookahead != '{' &&
+                   lexer->lookahead != '(' && lexer->lookahead != '\n' &&
+                   lexer->lookahead != '@' && lexer->lookahead != '#' &&
+                   lexer->lookahead != '~') {
                 lexer->advance(lexer, false);
-
-                // Consume path characters
-                while (!lexer->eof(lexer) && lexer->lookahead != '{' &&
-                       lexer->lookahead != '(' && lexer->lookahead != '\n' &&
-                       lexer->lookahead != '@' && lexer->lookahead != '#' &&
-                       lexer->lookahead != '~') {
-                    lexer->advance(lexer, false);
-                }
-
-                scanner->at_line_start = false;
-                scanner->whitespace_since_element = false;
-                lexer->result_symbol = INGREDIENT_NAME;
-                return true;
             }
-        }
 
-        // Regular ingredient name
+            scanner->at_line_start = false;
+            scanner->whitespace_since_element = false;
+            lexer->result_symbol = RECIPE_REFERENCE;
+            return true;
+        }
+    }
+
+    // Handle ingredient names (after @)
+    if (valid_symbols[INGREDIENT_NAME]) {
         if (scan_multiword(lexer)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;

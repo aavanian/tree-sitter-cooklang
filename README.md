@@ -15,7 +15,7 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 * [ ] IMPR: make a pass on node names vs parser names
 * [ ] IMPR: frontmatter granularity: show key/value
 * [ ] IMPR: the parser has section as containers of everything, except metadata. Even if not section is defined, an nameless one is assumed. Question is then whether tree-sitter need to represent the same or not. On one hand, it doesn't seem useful, on the other, it might bite back in the future
-* [ ] IMPR: recipe_reference is not implemented/parsed. This doesn't seem urgent. A first step would be to assign it a different node type for highlighting. Not sure if breaking down the path in component like the parser is necessary
+* [x] IMPR: recipe_reference has its own node type (`recipe_reference`) and is highlighted distinctly. Path decomposition into components is not implemented.
 * [ ] IMPR: refine quantity node in amount + optional unit
 * [ ] DEPR: >> metadata is deprecated and can't coexist with yaml frontmatter. I don't know if tree-sitter need to handle the deprecation warning. Note that if frontmatter exist, then old-style metadata is parsed as a note... That seems a parser bug. For TS: questions are what to do if both are present?
 * [ ] FEAT: Syntax highlighting

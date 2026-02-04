@@ -3,7 +3,7 @@
 ; Comments
 (comment) @comment
 (block_comment) @comment
-(note) @comment
+(recipe_note) @comment
 
 ; Sections
 (section_name) @text.title
@@ -18,6 +18,7 @@
 ; Ingredients
 "@" @punctuation.special
 (ingredient name: (ingredient_name) @constant)
+(ingredient name: (recipe_reference) @string.special)
 
 ; Cookware
 "#" @punctuation.special
@@ -32,7 +33,6 @@
 
 ; Brackets
 "{" @punctuation.bracket
-"}" @punctuation.bracket
 "(" @punctuation.bracket
 ")" @punctuation.bracket
 
