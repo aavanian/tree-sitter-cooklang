@@ -440,27 +440,25 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             lexer->advance(lexer, false);
         }
 
-        if (equals_count > 0) {
-            // Skip whitespace
-            while (is_whitespace(lexer->lookahead)) {
-                lexer->advance(lexer, false);
-            }
-
-            // Scan section name
-            while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '=') {
-                lexer->advance(lexer, false);
-            }
-
-            // Skip trailing equals
-            while (lexer->lookahead == '=' || is_whitespace(lexer->lookahead)) {
-                if (lexer->lookahead == '\n') break;
-                lexer->advance(lexer, false);
-            }
-
-            scanner->at_line_start = false;
-            lexer->result_symbol = SECTION_NAME;
-            return true;
+        // Skip whitespace
+        while (is_whitespace(lexer->lookahead)) {
+            lexer->advance(lexer, false);
         }
+
+        // Scan section name
+        while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '=') {
+            lexer->advance(lexer, false);
+        }
+
+        // Skip trailing equals
+        while (lexer->lookahead == '=' || is_whitespace(lexer->lookahead)) {
+            if (lexer->lookahead == '\n') break;
+            lexer->advance(lexer, false);
+        }
+
+        scanner->at_line_start = false;
+        lexer->result_symbol = SECTION_NAME;
+        return true;
     }
 
     // Handle comments (both at line start and inline)
