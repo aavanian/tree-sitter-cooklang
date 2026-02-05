@@ -107,8 +107,10 @@ static bool scan_text_until(TSLexer *lexer, const char *delimiters) {
             // Scan ahead to check if { exists before newline
             lexer->advance(lexer, false);
 
-            // Skip past potential timer name
-            while (lexer->lookahead != '{' && lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+            // Skip past potential timer name (word chars and whitespace only;
+            // anything else cannot be part of a name so stop there)
+            while (lexer->lookahead != '{' && lexer->lookahead != '\n' && !lexer->eof(lexer)
+                   && (is_word_char(lexer->lookahead) || is_whitespace(lexer->lookahead))) {
                 lexer->advance(lexer, false);
             }
 

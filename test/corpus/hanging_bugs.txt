@@ -1,5 +1,5 @@
 ===
-bug: hyphen basic
+regression: hyphen basic
 ===
 
 medium-high
@@ -12,7 +12,7 @@ medium-high
       (text_content))))
 
 ============================================================
-bug: frontmatter blank line truncates block (see bug #3)
+bug: frontmatter blank line truncates block (see bug #2)
 ============================================================
 
 ---
@@ -28,7 +28,7 @@ author: me
     (frontmatter_content)))
 
 ============================================================
-bug: non-timer ~ swallows following ingredient (see bug #2)
+regression: non-timer ~ does not swallow following ingredient
 ============================================================
 
 ~notimer @salt
@@ -43,7 +43,7 @@ bug: non-timer ~ swallows following ingredient (see bug #2)
       (ingredient_name))))
 
 ===
-bug: hyphen in full step
+regression: hyphen in full step
 ===
 
 Cut @pork{1/2%lb} into small cubes. Using the same skillet, add 2 Tbsp of olive oil and cook pork for ~{5%minutes} over medium-high heat, stirring occasionally.
