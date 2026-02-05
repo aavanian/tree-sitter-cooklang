@@ -9,22 +9,19 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 1. **Go and Python bindings missing `scanner.c`** — `bindings/go/binding.go` and
    `setup.py` both include only `parser.c`.  The external scanner is required;
    without it both bindings produce a broken parser at runtime.
-2. **`peerDependenciesMeta` key mismatch** — key is `tree_sitter` (underscores)
-   but the peer dep is `tree-sitter` (hyphens); the meta is silently ignored
-   (`package.json`).
 
 ### Packaging & metadata
 
-6. **Align version across all files** — `Cargo.toml`, `pyproject.toml`,
+2. **Align version across all files** — `Cargo.toml`, `pyproject.toml`,
    `Makefile` say `0.0.1`; `package.json`, `tree-sitter.json` say `1.0.0`.
-7. **Align license across all files** — `Cargo.toml`, `pyproject.toml` say MIT;
+3. **Align license across all files** — `Cargo.toml`, `pyproject.toml` say MIT;
    `package.json`, `tree-sitter.json` say ISC.
 
 ### Queries & documentation
 
-8.  **Sections are parsed as dividers, not containers** — fixing this means:
-    change parsing so sections are containers, add a section fold rule to
-    `folds.scm`, and document section folding in `queries/README.md`.
+4. **Sections are parsed as dividers, not containers** — fixing this means:
+   change parsing so sections are containers, add a section fold rule to
+   `folds.scm`, and document section folding in `queries/README.md`.
 
 
 ## Notable Differences
