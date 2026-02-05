@@ -33,22 +33,19 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 
 ### Queries & documentation
 
-8.  **`queries/README.md` claims sections are foldable** — `folds.scm` has no
-    section rule; only frontmatter and block comments are foldable.
-9.  **`queries/README.md` lists notes under "Comments"** — `recipe_note` is
-    highlighted as `@string`, not `@comment`; should be listed separately.
-10. **Sections are parsed as dividers, not containers** — small loss of utility
-    for section folding; may need to be reconsidered.
+8.  **Sections are parsed as dividers, not containers** — fixing this means:
+    change parsing so sections are containers, add a section fold rule to
+    `folds.scm`, and document section folding in `queries/README.md`.
 
 ### Test coverage
 
-11. **`~notimer @salt`** — non-timer `~` followed by an ingredient on the same
+9.  **`~notimer @salt`** — non-timer `~` followed by an ingredient on the same
     line (exercises bug #2).
-12. **Frontmatter with a blank line in the middle** (exercises bug #3).
-13. **Empty file** — minimal smoke case.
-14. **`~{5}` — timer with value but no unit.**
-15. **`>> key:` — metadata with empty value.**
-16. **`@salt{to taste%pinch}` — non-numeric quantity value with a unit.**
+10. **Frontmatter with a blank line in the middle** (exercises bug #3).
+11. **Empty file** — minimal smoke case.
+12. **`~{5}` — timer with value but no unit.**
+13. **`>> key:` — metadata with empty value.**
+14. **`@salt{to taste%pinch}` — non-numeric quantity value with a unit.**
 
 ## Notable Differences
 

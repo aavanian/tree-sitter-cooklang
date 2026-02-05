@@ -6,7 +6,8 @@ This directory contains query files that enable various editor features for Cook
 
 ### `highlights.scm`
 Provides syntax highlighting for:
-- Comments (single line, block, and notes)
+- Comments (single line and block)
+- Recipe notes
 - Section headers
 - Metadata
 - Ingredients, cookware, and timers
@@ -19,7 +20,6 @@ Provides syntax highlighting for:
 
 ### `folds.scm`
 Enables code folding for:
-- Sections (fold entire section with its content)
 - Frontmatter
 - Block comments
 
