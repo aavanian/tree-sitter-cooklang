@@ -252,7 +252,7 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^\\n]+"
+            "value": "[^\\n]*"
           },
           {
             "type": "SYMBOL",

@@ -12,7 +12,7 @@ medium-high
       (text_content))))
 
 ============================================================
-bug: frontmatter blank line truncates block (see bug #2)
+regression: frontmatter blank line does not truncate block
 ============================================================
 
 ---
