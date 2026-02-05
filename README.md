@@ -65,6 +65,21 @@ highlight` works on `.cook` files once the grammar's parent directory is listed
 in `parser-directories` in `~/.config/tree-sitter/config.json` (note: the
 parent, not the grammar directory itself).
 
+## Releasing
+
+Before tagging a release, bump the version in every file listed below to the
+same value, then create a git tag with that version (e.g. `v0.1.0`).  The Go
+binding has no explicit version field — it is versioned by the tag itself, so
+the tag is the single source of truth for Go consumers.
+
+| File | Field |
+|---|---|
+| `Makefile` | `VERSION` (line 1) |
+| `package.json` | `version` |
+| `tree-sitter.json` | `version` (appears in both `grammar` and `language` blocks) |
+| `pyproject.toml` | `version` under `[project]` |
+| `Cargo.toml` | `version` under `[package]` |
+
 ## References
 
 * OUTDATED [Cooklang EBNF](https://github.com/cooklang/spec/blob/main/EBNF.md)
