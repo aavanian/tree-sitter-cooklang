@@ -220,18 +220,19 @@ unsigned tree_sitter_cooklang_external_scanner_serialize(void *payload, char *bu
     Scanner *scanner = (Scanner *)payload;
     buffer[0] = scanner->in_metadata;
     buffer[1] = scanner->at_line_start;
-    buffer[2] = scanner->paren_depth;
-    buffer[3] = scanner->whitespace_since_element;
-    return 4;
+    buffer[2] = (char)(scanner->paren_depth & 0xFF);
+    buffer[3] = (char)((scanner->paren_depth >> 8) & 0xFF);
+    buffer[4] = scanner->whitespace_since_element;
+    return 5;
 }
 
 void tree_sitter_cooklang_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *scanner = (Scanner *)payload;
-    if (length >= 4) {
+    if (length >= 5) {
         scanner->in_metadata = buffer[0];
         scanner->at_line_start = buffer[1];
-        scanner->paren_depth = buffer[2];
-        scanner->whitespace_since_element = buffer[3];
+        scanner->paren_depth = (unsigned char)buffer[2] | ((unsigned char)buffer[3] << 8);
+        scanner->whitespace_since_element = buffer[4];
     }
 }
 
