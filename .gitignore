@@ -3,3 +3,11 @@ node_modules/
 target
 build
 .DS_Store
+
+# Makefile build outputs
+src/*.o
+*.a
+*.dylib
+*.so
+*.pc
+*.wasm

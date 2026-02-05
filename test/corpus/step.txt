@@ -36,7 +36,7 @@ any empty lines between.
       (text_content))))
 
 ============================
-step: step with all elements (should the comment really don't belong to the step?)
+step: step with all elements
 ============================
 
 In a #large pot{}, combine @water{2%L}, @salt{1%tsp}, and heat for ~{10%minutes} -- don't let it boil over!
