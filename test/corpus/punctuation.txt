@@ -1,10 +1,10 @@
-===|||
+===
 punctuation: cookware with exclamation mark
-===|||
+===
 
 Use the #mixer! Be careful.
 
----|||
+---
 
 (recipe
   (step
@@ -15,13 +15,13 @@ Use the #mixer! Be careful.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: cookware with comma
-===|||
+===
 
 Use #bowl, then mix.
 
----|||
+---
 
 (recipe
   (step
@@ -32,13 +32,13 @@ Use #bowl, then mix.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: cookware with period
-===|||
+===
 
 Heat #pan.
 
----|||
+---
 
 (recipe
   (step
@@ -49,13 +49,13 @@ Heat #pan.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: ingredient with question mark
-===|||
+===
 
 Did you add @vanilla extract{}? Check again.
 
----|||
+---
 
 (recipe
   (step
@@ -67,13 +67,13 @@ Did you add @vanilla extract{}? Check again.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: ingredient with period
-===|||
+===
 
 Add @salt.
 
----|||
+---
 
 (recipe
   (step
@@ -84,13 +84,13 @@ Add @salt.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: multiword cookware
-===|||
+===
 
 Place in #baking dish{} carefully.
 
----|||
+---
 
 (recipe
   (step
@@ -102,13 +102,13 @@ Place in #baking dish{} carefully.
     (text
       (text_content))))
 
-===|||
+===
 punctuation: timer with period
-===|||
+===
 
 Cook for ~{5%minutes}.
 
----|||
+---
 
 (recipe
   (step

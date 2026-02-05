@@ -1,4 +1,0 @@
-(recipe
-  (comment)
-  (step
-    (plain_text)))

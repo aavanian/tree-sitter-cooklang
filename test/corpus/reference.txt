@@ -1,10 +1,10 @@
-=========================|||
+=========================
 reference: without amount
-=========================|||
+=========================
 
 Serve with @./sides/Rice.
 
----|||
+---
 
 (recipe
   (step
@@ -13,13 +13,13 @@ Serve with @./sides/Rice.
     (ingredient
       (recipe_reference))))
 
-======================|||
+======================
 reference: with amount
-======================|||
+======================
 
 Pour over with @./sauces/Hollandaise{150%g}.
 
----|||
+---
 
 (recipe
   (step
@@ -33,13 +33,13 @@ Pour over with @./sauces/Hollandaise{150%g}.
     (text
       (text_content))))
 
-===========================================|||
+===========================================
 reference: with amount (windows path style)
-===========================================|||
+===========================================
 
 Use @.\sauces\bechamel{200%g}.
 
----|||
+---
 
 (recipe
   (step
@@ -53,13 +53,13 @@ Use @.\sauces\bechamel{200%g}.
     (text
       (text_content))))
 
-=============================|||
+=============================
 reference: with space in path
-=============================|||
+=============================
 
 Top with @./Sauces/Super Sweet{1%portion}.
 
----|||
+---
 
 (recipe
   (step
@@ -73,13 +73,13 @@ Top with @./Sauces/Super Sweet{1%portion}.
     (text
       (text_content))))
 
-=============================|||
+=============================
 reference: with note
-=============================|||
+=============================
 
 Add @./broths/Vegetable{2%cups}(heated).
 
----|||
+---
 
 (recipe
   (step
@@ -95,13 +95,13 @@ Add @./broths/Vegetable{2%cups}(heated).
     (text
       (text_content))))
 
-======================|||
+======================
 reference: nested path
-======================|||
+======================
 
 Add @./bases/sauces/french/hollandaise{100%ml}
 
----|||
+---
 
 (recipe
   (step
@@ -113,13 +113,13 @@ Add @./bases/sauces/french/hollandaise{100%ml}
         (quantity_value)
         (quantity_unit)))))
 
-===============================|||
+===============================
 reference: dash and underscores
-===============================|||
+===============================
 
 Add @./french_sauces/la-hollandaise{100%ml}
 
----|||
+---
 
 (recipe
   (step

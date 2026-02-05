@@ -1,25 +1,12 @@
-======================|||
-step: simple line step
-==========+===========|||
-
-Mix all ingredients together.
-
----|||
-
-(recipe
-  (step
-    (text
-      (text_content))))
-
-====================|||
+====================
 step: multiple steps
-====================|||
+====================
 
 First step here.
 
 Second step starts after empty line.
 
----|||
+---
 
 (recipe
   (step
@@ -29,15 +16,15 @@ Second step starts after empty line.
     (text
       (text_content))))
 
-=====================|||
+=====================
 step: multi-line step
-=====================|||
+=====================
 
 A step that continues
 on multiple lines without
 any empty lines between.
 
----|||
+---
 
 (recipe
   (step
@@ -48,13 +35,13 @@ any empty lines between.
     (text
       (text_content))))
 
-============================|||
+============================
 step: step with all elements (should the comment really don't belong to the step?)
-============================|||
+============================
 
 In a #large pot{}, combine @water{2%L}, @salt{1%tsp}, and heat for ~{10%minutes} -- don't let it boil over!
 
----|||
+---
 
 (recipe
   (step
@@ -80,19 +67,19 @@ In a #large pot{}, combine @water{2%L}, @salt{1%tsp}, and heat for ~{10%minutes}
     (text
       (text_content))
     (timer
-        (quantity
-          (quantity_value)
-          (quantity_unit))))
-    (comment
-      (comment_line)))
+      (quantity
+        (quantity_value)
+        (quantity_unit))))
+  (comment
+    (comment_line)))
 
-===================================|||
+===================================
 step: text, ingredient and quantity
-===================================|||
+===================================
 
 Mix @flour{2%cups}
 
----|||
+---
 
 (recipe
   (step
@@ -104,15 +91,15 @@ Mix @flour{2%cups}
         (quantity_value)
         (quantity_unit)))))
 
-=======================================================|||
+=======================================================
 step: 2 steps with ingredient, cookware, timer and note
-=======================================================|||
+=======================================================
 
 Heat #pan{} with @oil{2%tbsp}.
 
 Add @onions{2}(diced) and cook ~{5%minutes}.
 
----|||
+---
 
 (recipe
   (step

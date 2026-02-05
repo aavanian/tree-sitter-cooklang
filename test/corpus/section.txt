@@ -1,23 +1,23 @@
-===|||
+===
 section: empty section
-===|||
+===
 
 = Empty =
 
----|||
+---
 
 (recipe
   (section
     (section_name)))
 
-===|||
+===
 section: nameless with step after
-===|||
+===
 
 ====
 step after nameless section
 
----|||
+---
 
 (recipe
   (section
@@ -26,14 +26,14 @@ step after nameless section
     (text
       (text_content))))
 
-===|||
+===
 section: simple section with step
-===|||
+===
 
 = Dough
 Mix @flour{200%g} and @water{100%ml} together.
 
----|||
+---
 
 (recipe
   (section
@@ -56,15 +56,15 @@ Mix @flour{200%g} and @water{100%ml} together.
     (text
       (text_content))))
 
-===|||
+===
 section: simple section with space before step
-===|||
+===
 
 = Dough
 
 Mix @flour{200%g} and @water{100%ml} together.
 
----|||
+---
 
 (recipe
   (section
@@ -87,14 +87,14 @@ Mix @flour{200%g} and @water{100%ml} together.
     (text
       (text_content))))
 
-===|||
+===
 section: named with closing symbols
-===|||
+===
 
 == Filling ==
 Add @cheese{100%g}.
 
----|||
+---
 
 (recipe
   (section
@@ -110,15 +110,15 @@ Add @cheese{100%g}.
     (text
       (text_content))))
 
-===|||
+===
 section: with step and recipe note
-===|||
+===
 
 = Dough
 Mix ingredients.
 > Don't overmix!
 
----|||
+---
 
 (recipe
   (section
@@ -129,9 +129,9 @@ Mix ingredients.
   (recipe_note
     (recipe_note_text)))
 
-===|||
+===
 section: multiple
-===|||
+===
 
 = Section 1 =
 First step.
@@ -139,7 +139,7 @@ First step.
 == Section 2 ==
 Second step.
 
----|||
+---
 
 (recipe
   (section
@@ -153,9 +153,9 @@ Second step.
     (text
       (text_content))))
 
-===|||
+===
 section: with multiple steps
-===|||
+===
 
 = Main Course
 
@@ -165,7 +165,7 @@ Place @chicken{1%kg} in #roasting pan{}.
 
 Cook for ~{45%minutes}.
 
----|||
+---
 
 (recipe
   (section
@@ -203,9 +203,9 @@ Cook for ~{45%minutes}.
     (text
       (text_content))))
 
-===|||
+===
 section: nested content - mostly irrelevant since section are just dividers
-===|||
+===
 
 = Preparation
 
@@ -214,7 +214,7 @@ Mix ingredients carefully.
 
 > Remember to preheat oven!
 
----|||
+---
 
 (recipe
   (section

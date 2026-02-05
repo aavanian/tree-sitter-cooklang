@@ -1,10 +1,10 @@
-========================|||
+========================
 amount: integer quantity
-========================|||
+========================
 
 @ingredient{2}
 
----|||
+---
 
 (recipe
   (step
@@ -13,13 +13,13 @@ amount: integer quantity
       (quantity
         (quantity_value)))))
 
-========================|||
+========================
 amount: decimal quantity
-========================|||
+========================
 
 @ingredient{2.5}
 
----|||
+---
 
 (recipe
   (step
@@ -28,13 +28,13 @@ amount: decimal quantity
       (quantity
         (quantity_value)))))
 
-===========================|||
+===========================
 amount: fractional quantity
-===========================|||
+===========================
 
 @ingredient{5/2}
 
----|||
+---
 
 (recipe
   (step
@@ -43,13 +43,13 @@ amount: fractional quantity
       (quantity
         (quantity_value)))))
 
-=======================================|||
+=======================================
 amount: fractional quantity with spaces
-=======================================|||
+=======================================
 
 @ingredient{5 / 2}
 
----|||
+---
 
 (recipe
   (step
@@ -58,13 +58,13 @@ amount: fractional quantity with spaces
       (quantity
         (quantity_value)))))
 
-======================|||
+======================
 amount: large quantity
-======================|||
+======================
 
 @ingredient{2000%g}
 
----|||
+---
 
 (recipe
   (step
@@ -74,13 +74,13 @@ amount: large quantity
         (quantity_value)
         (quantity_unit)))))
 
-===============================|||
+===============================
 amount: mixed fraction quantity
-===============================|||
+===============================
 
 @ingredient{1 1/2%cups}
 
----|||
+---
 
 (recipe
   (step
@@ -90,13 +90,13 @@ amount: mixed fraction quantity
         (quantity_value)
         (quantity_unit)))))
 
-=============================|||
+=============================
 amount: unit with % separator
-=============================|||
+=============================
 
 @ingredient{250%ml}
 
----|||
+---
 
 (recipe
   (step
@@ -106,13 +106,13 @@ amount: unit with % separator
         (quantity_value)
         (quantity_unit)))))
 
-=================================|||
+=================================
 amount: unit with space separator
-=================================|||
+=================================
 
 @ingredient{250 ml}
 
----|||
+---
 
 (recipe
   (step
@@ -122,13 +122,13 @@ amount: unit with space separator
         (quantity_value)
         (quantity_unit)))))
 
-=================================|||
+=================================
 amount: zero quantity
-=================================|||
+=================================
 
 @ingredient{0 ml}
 
----|||
+---
 
 (recipe
   (step
@@ -138,13 +138,13 @@ amount: zero quantity
         (quantity_value)
         (quantity_unit)))))
 
-================================|||
+================================
 amount: non-numeric value
-================================|||
+================================
 
 @ingredient{to taste}
 
----|||
+---
 
 (recipe
   (step

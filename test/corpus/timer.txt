@@ -1,10 +1,10 @@
-===|||
+===
 timer: anonymous
-===|||
+===
 
 ~{25%minutes}
 
----|||
+---
 
 (recipe
   (step
@@ -13,39 +13,39 @@ timer: anonymous
         (quantity_value)
         (quantity_unit)))))
 
-====================================|||
+====================================
 timer: a timer must have a quantity!
-====================================|||
+====================================
 
 ~timer!
 
----|||
+---
 
 (recipe
   (step
     (text
       (text_content))))
 
-=========================================================|||
+=========================================================
 timer: a timer must have a quantity! a note is not enough
-=========================================================|||
+=========================================================
 
 ~timer!(not!)
 
----|||
+---
 
 (recipe
   (step
     (text
       (text_content))))
 
-===|||
+===
 timer: multiple
-===|||
+===
 
 Cook for ~{5%minutes}, then simmer ~{20%minutes}
 
----|||
+---
 
 (recipe
   (step
@@ -62,13 +62,13 @@ Cook for ~{5%minutes}, then simmer ~{20%minutes}
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 timer: named
-===|||
+===
 
 ~eggs{3%minutes}
 
----|||
+---
 
 (recipe
   (step
@@ -78,13 +78,13 @@ timer: named
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 timer: anonymous with note
-===|||
+===
 
 ~{10%minutes}(or until golden brown)
 
----|||
+---
 
 (recipe
   (step
@@ -95,13 +95,13 @@ timer: anonymous with note
       (preparation
         (preparation_content)))))
 
-===|||
+===
 timer: named with note
-===|||
+===
 
 ~rest{30%minutes}(covered)
 
----|||
+---
 
 (recipe
   (step
@@ -113,13 +113,13 @@ timer: named with note
       (preparation
         (preparation_content)))))
 
-===|||
+===
 timer: with hours unit
-===|||
+===
 
 ~marinate{2%hours}
 
----|||
+---
 
 (recipe
   (step
@@ -129,13 +129,13 @@ timer: with hours unit
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 timer: with decimal hours unit
-===|||
+===
 
 ~{1.5%hours}
 
----|||
+---
 
 (recipe
   (step

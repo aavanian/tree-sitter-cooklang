@@ -1,9 +1,0 @@
-(recipe
-  (step
-    (ingredient
-      name: (ingredient_name)
-      (amount
-        (quantity)
-        (units))
-      (preparation
-        preparation: (preparation_content)))))

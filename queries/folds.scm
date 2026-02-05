@@ -1,8 +1,5 @@
 ; Folding queries for Cooklang
 
-; Fold sections
-(section) @fold
-
 ; Fold frontmatter
 (frontmatter) @fold
 

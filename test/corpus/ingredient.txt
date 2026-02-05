@@ -1,23 +1,23 @@
-==================|||
+==================
 ingredient: simple
-==================|||
+==================
 
 @salt
 
----|||
+---
 
 (recipe
   (step
     (ingredient
       (ingredient_name))))
 
-=================================|||
+=================================
 ingredient: with decimal quantity
-=================================|||
+=================================
 
 @olive oil{2.5%tbsp}
 
----|||
+---
 
 (recipe
   (step
@@ -27,13 +27,13 @@ ingredient: with decimal quantity
         (quantity_value)
         (quantity_unit)))))
 
-===============================|||
+===============================
 ingredient: with empty quantity
-===============================|||
+===============================
 
 @ground black pepper{}
 
----|||
+---
 
 (recipe
   (step
@@ -41,13 +41,13 @@ ingredient: with empty quantity
       (ingredient_name)
       (quantity))))
 
-====================================|||
+====================================
 ingredient: with fractional quantity
-====================================|||
+====================================
 
 @flour{1/2%cup}
 
----|||
+---
 
 (recipe
   (step
@@ -57,13 +57,13 @@ ingredient: with fractional quantity
         (quantity_value)
         (quantity_unit)))))
 
-================================|||
+================================
 ingredient: with multi-word name
-================================|||
+================================
 
 @red bell pepper{1}
 
----|||
+---
 
 (recipe
   (step
@@ -72,13 +72,13 @@ ingredient: with multi-word name
       (quantity
         (quantity_value)))))
 
-===================================|||
+===================================
 ingredient: with quantity only
-===================================|||
+===================================
 
 @bacon strips{1}
 
----|||
+---
 
 (recipe
   (step
@@ -87,13 +87,13 @@ ingredient: with quantity only
       (quantity
         (quantity_value)))))
 
-===================================|||
+===================================
 ingredient: with quantity and unit
-===================================|||
+===================================
 
 @bacon strips{1%kg}
 
----|||
+---
 
 (recipe
   (step
@@ -103,13 +103,13 @@ ingredient: with quantity and unit
         (quantity_value)
         (quantity_unit)))))
 
-=====================|||
+=====================
 ingredient: with note
-=====================|||
+=====================
 
 @carrots(diced)
 
----|||
+---
 
 (recipe
   (step
@@ -118,13 +118,13 @@ ingredient: with note
       (preparation
         (preparation_content)))))
 
-=======================================|||
+=======================================
 ingredient: with quantity and note
-=======================================|||
+=======================================
 
 @carrots{2}(diced)
 
----|||
+---
 
 (recipe
   (step
@@ -135,13 +135,13 @@ ingredient: with quantity and note
       (preparation
         (preparation_content)))))
 
-===========================================|||
+===========================================
 ingredient: multiple ingredient in one step
-===========================================|||
+===========================================
 
 Mix @flour{2%cups} with @water{1%cup}
 
----|||
+---
 
 (recipe
   (step

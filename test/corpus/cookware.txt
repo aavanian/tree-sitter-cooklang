@@ -1,23 +1,23 @@
-==========================|||
+==========================
 cookware: with no quantity
-==========================|||
+==========================
 
 #pot
 
----|||
+---
 
 (recipe
   (step
     (cookware
       (cookware_name))))
 
-=============================|||
+=============================
 cookware: with empty quantity
-=============================|||
+=============================
 
 #potato masher{}
 
----|||
+---
 
 (recipe
   (step
@@ -25,13 +25,13 @@ cookware: with empty quantity
       (cookware_name)
       (quantity))))
 
-=======================|||
+=======================
 cookware: with quantity
-=======================|||
+=======================
 
 #potato masher{1}
 
----|||
+---
 
 (recipe
   (step
@@ -40,13 +40,13 @@ cookware: with quantity
       (quantity
         (quantity_value)))))
 
-=========================|||
+=========================
 cookware: multi-word name
-=========================|||
+=========================
 
 #cast iron skillet{1}
 
----|||
+---
 
 (recipe
   (step
@@ -55,13 +55,13 @@ cookware: multi-word name
       (quantity
         (quantity_value)))))
 
-===================|||
+===================
 cookware: with note
-===================|||
+===================
 
 #large mixing bowl{1}(stainless steel)
 
----|||
+---
 
 (recipe
   (step
@@ -72,13 +72,13 @@ cookware: with note
       (preparation
         (preparation_content)))))
 
-==================|||
+==================
 cookware: multiple
-==================|||
+==================
 
 Place in #oven on #baking sheet{}
 
----|||
+---
 
 (recipe
   (step

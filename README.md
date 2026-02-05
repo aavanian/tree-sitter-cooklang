@@ -4,14 +4,7 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 
 ## TODO
 
-* [x] IMPR: refine quantity node in amount + optional unit
-* [ ] FEAT: Syntax highlighting
-
-### Later
-* [ ] IMPR: make a pass on node names vs parser names
 * [ ] IMPR: the grammar parse sections as dividers instead of containers (as the parser does). There's a small loss of utility for folding sections. Maybe needs to be reconsidered.
-* [ ] IMPR: Maybe? simplify the scanner by dropping the external `TEXT_CONTENT` scanner. See `docs/timer-token-approach.md`.
-
 * [ ] Properly handle `unreserved_symbol`s.
 
 ## Notable Differences
@@ -39,6 +32,20 @@ Or we can run test on a restricted scope using a regex against the test names:
 ```
 tree-sitter test -i ingredient
 ```
+
+### Highlighting
+
+Highlight queries (`queries/highlights.scm`) are tested with:
+
+```
+test/test_highlights.sh
+```
+
+The script contains inline `.cook` snippets, runs `tree-sitter query` against
+each one, and asserts that the expected captures fire.  For interactive spot-checking, `tree-sitter
+highlight` works on `.cook` files once the grammar's parent directory is listed
+in `parser-directories` in `~/.config/tree-sitter/config.json` (note: the
+parent, not the grammar directory itself).
 
 ## References
 

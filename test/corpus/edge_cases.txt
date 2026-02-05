@@ -1,10 +1,10 @@
-===|||
+===
 edge_case: adjacent symbols
-===|||
+===
 
 @salt{}#pan{}~{5%min}
 
----|||
+---
 
 (recipe
   (step
@@ -19,9 +19,9 @@ edge_case: adjacent symbols
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 edge_case: all elements in one line
-===|||
+===
 
 ---
 servings: 4
@@ -32,7 +32,7 @@ servings: 4
 
 In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
 
----|||
+---
 
 (recipe
   (frontmatter
@@ -67,13 +67,13 @@ In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
     (text
       (text_content))))
 
-===|||
+===
 edge_case: escape character - do not handle it
-===|||
+===
 
 @ingredient{1%cup\}
 
----|||
+---
 
 (recipe
   (step
@@ -83,13 +83,13 @@ edge_case: escape character - do not handle it
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 edge_case: nested parenthesis
-===|||
+===
 
 @ingredient{1}(note (with nested) parens)
 
----|||
+---
 
 (recipe
   (step
@@ -100,13 +100,13 @@ edge_case: nested parenthesis
       (preparation
         (preparation_content)))))
 
-===|||
+===
 edge_case: special characters
-===|||
+===
 
 Use the @symbol and #tag carefully with ~timing!
 
----|||
+---
 
 (recipe
   (step
@@ -121,13 +121,13 @@ Use the @symbol and #tag carefully with ~timing!
     (text
       (text_content))))
 
-===|||
+===
 edge_case: unicode in ingredient
-===|||
+===
 
 @café{2%cups}
 
----|||
+---
 
 (recipe
   (step
@@ -137,13 +137,13 @@ edge_case: unicode in ingredient
         (quantity_value)
         (quantity_unit)))))
 
-===|||
+===
 edge_case: long multi word ingredient
-===|||
+===
 
 @very long ingredient name with many words{1}
 
----|||
+---
 
 (recipe
   (step

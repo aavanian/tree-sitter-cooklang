@@ -3,16 +3,20 @@
 ; Comments
 (comment) @comment
 (block_comment) @comment
-(recipe_note) @comment
+
+; Recipe notes (user-facing, distinct from comments)
+(recipe_note ">" @punctuation.special)
+(recipe_note text: (recipe_note_text) @string)
 
 ; Sections
-(section_name) @text.title
+(section_name) @tag
 
 ; Metadata
-(metadata) @keyword
+(metadata key: (metadata_key) @keyword)
+(metadata ":" @punctuation.delimiter)
+(metadata value: (metadata_value) @string)
 
 ; Frontmatter
-(frontmatter) @keyword
 (frontmatter_content) @string
 
 ; Ingredients
@@ -33,8 +37,10 @@
 (quantity_unit) @type
 (quantity "%") @operator
 
+; Preparations
+(preparation content: (preparation_content) @string)
+
 ; Brackets
-"{" @punctuation.bracket
 "(" @punctuation.bracket
 ")" @punctuation.bracket
 
