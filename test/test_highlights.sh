@@ -128,7 +128,7 @@ run_test "ingredient with quantity" \
     punctuation.special "@" \
     constant "flour" \
     number "2" \
-    operator "{2%cups}" \
+    operator "%" \
     type "cups"
 
 run_test "ingredient with preparation" \
@@ -171,7 +171,7 @@ run_test "named timer" \
 run_test "quantity percent operator" \
     "@salt{1%tsp}
 " \
-    operator "{1%tsp}"
+    operator "%"
 
 # ---------------------------------------------------------------------------
 # Summary

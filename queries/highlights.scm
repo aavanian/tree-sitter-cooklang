@@ -35,7 +35,7 @@
 ; Amounts
 (quantity_value) @number
 (quantity_unit) @type
-(quantity "%") @operator
+(quantity "%" @operator)
 
 ; Preparations
 (preparation content: (preparation_content) @string)

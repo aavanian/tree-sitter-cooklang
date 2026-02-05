@@ -9,11 +9,7 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 1. **Go and Python bindings missing `scanner.c`** — `bindings/go/binding.go` and
    `setup.py` both include only `parser.c`.  The external scanner is required;
    without it both bindings produce a broken parser at runtime.
-2. **`(quantity "%") @operator` captures the whole `quantity` node, not the
-   `%`** — the capture anchor is on the outer node; should be
-   `(quantity "%" @operator)`.  The highlight test asserts the current (wrong)
-   behaviour (`queries/highlights.scm`, `test/test_highlights.sh`).
-3. **`peerDependenciesMeta` key mismatch** — key is `tree_sitter` (underscores)
+2. **`peerDependenciesMeta` key mismatch** — key is `tree_sitter` (underscores)
    but the peer dep is `tree-sitter` (hyphens); the meta is silently ignored
    (`package.json`).
 
