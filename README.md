@@ -40,22 +40,15 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
 10. **Sections are parsed as dividers, not containers** — small loss of utility
     for section folding; may need to be reconsidered.
 
-### Code quality
-
-11. **`scan_multiword` / `scan_multiword_require_quantity` duplication** — ~80 %
-    shared logic; extract a common helper parameterised on whether a trailing
-    `{` is required (`scanner.c`).
 ### Test coverage
 
-12. **`~notimer @salt`** — non-timer `~` followed by an ingredient on the same
+11. **`~notimer @salt`** — non-timer `~` followed by an ingredient on the same
     line (exercises bug #2).
-13. **Frontmatter with a blank line in the middle** (exercises bug #3).
-14. **Empty file** — minimal smoke case.
-15. **`~{5}` — timer with value but no unit.**
-16. **`>> key:` — metadata with empty value.**
-17. **`@salt{to taste%pinch}` — non-numeric quantity value with a unit.**
-18. **Open question in `test/corpus/step.txt` test name** — *"should the comment
-    really don't belong to the step?"* — resolve or remove.
+12. **Frontmatter with a blank line in the middle** (exercises bug #3).
+13. **Empty file** — minimal smoke case.
+14. **`~{5}` — timer with value but no unit.**
+15. **`>> key:` — metadata with empty value.**
+16. **`@salt{to taste%pinch}` — non-numeric quantity value with a unit.**
 
 ## Notable Differences
 

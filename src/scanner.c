@@ -45,8 +45,9 @@ static inline bool is_whitespace(int32_t c) {
     return c == ' ' || c == '\t';
 }
 
-static bool scan_multiword(TSLexer *lexer) {
-    // First word
+// When require_quantity is true the scan only succeeds if a '{' is found
+// (used for timers); otherwise at least one word is enough (ingredients, cookware).
+static bool scan_multiword(TSLexer *lexer, bool require_quantity) {
     if (!is_word_char(lexer->lookahead)) {
         return false;
     }
@@ -55,57 +56,13 @@ static bool scan_multiword(TSLexer *lexer) {
         lexer->advance(lexer, false);
     }
 
-    // Check if we have a quantity/unit pattern immediately following
     if (lexer->lookahead == '{') {
         return true;
     }
 
-    // Save position after first word
-    lexer->mark_end(lexer);
-
-    // Look ahead for more words
-    while (is_whitespace(lexer->lookahead)) {
-        lexer->advance(lexer, false);
-
-        // After whitespace, check for another word
-        if (is_word_char(lexer->lookahead)) {
-            // Continue collecting the word
-            while (is_word_char(lexer->lookahead)) {
-                lexer->advance(lexer, false);
-            }
-
-            // Update end position if we find a quantity
-            if (lexer->lookahead == '{') {
-                lexer->mark_end(lexer);
-            }
-        } else {
-            break;
-        }
-    }
-
-    return true;
-}
-
-// Variant that only succeeds if followed by '{' (for timer names where quantity is required)
-static bool scan_multiword_require_quantity(TSLexer *lexer) {
-    if (!is_word_char(lexer->lookahead)) {
-        return false;
-    }
-
-    while (is_word_char(lexer->lookahead)) {
-        lexer->advance(lexer, false);
-    }
-
-    // Check if we have a quantity immediately following
-    if (lexer->lookahead == '{') {
-        return true;
-    }
-
-    // Save position after first word
     lexer->mark_end(lexer);
     bool found_quantity = false;
 
-    // Look ahead for more words, but only accept if we find a '{'
     while (is_whitespace(lexer->lookahead)) {
         lexer->advance(lexer, false);
 
@@ -123,7 +80,7 @@ static bool scan_multiword_require_quantity(TSLexer *lexer) {
         }
     }
 
-    return found_quantity;
+    return !require_quantity || found_quantity;
 }
 
 static bool scan_text_until(TSLexer *lexer, const char *delimiters) {
@@ -545,7 +502,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle ingredient names (after @)
     if (valid_symbols[INGREDIENT_NAME]) {
-        if (scan_multiword(lexer)) {
+        if (scan_multiword(lexer, false)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = INGREDIENT_NAME;
@@ -555,7 +512,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle cookware names (after #)
     if (valid_symbols[COOKWARE_NAME]) {
-        if (scan_multiword(lexer)) {
+        if (scan_multiword(lexer, false)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = COOKWARE_NAME;
@@ -565,7 +522,7 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
 
     // Handle timer names (after ~) - only match if followed by '{'
     if (valid_symbols[TIMER_NAME]) {
-        if (scan_multiword_require_quantity(lexer)) {
+        if (scan_multiword(lexer, true)) {
             scanner->at_line_start = false;
             scanner->whitespace_since_element = false;
             lexer->result_symbol = TIMER_NAME;
