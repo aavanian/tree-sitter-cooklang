@@ -37,15 +37,6 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for [Cooklang](h
     change parsing so sections are containers, add a section fold rule to
     `folds.scm`, and document section folding in `queries/README.md`.
 
-### Test coverage
-
-9.  **`~notimer @salt`** — non-timer `~` followed by an ingredient on the same
-    line (exercises bug #2).
-10. **Frontmatter with a blank line in the middle** (exercises bug #3).
-11. **Empty file** — minimal smoke case.
-12. **`~{5}` — timer with value but no unit.**
-13. **`>> key:` — metadata with empty value.**
-14. **`@salt{to taste%pinch}` — non-numeric quantity value with a unit.**
 
 ## Notable Differences
 

@@ -143,3 +143,17 @@ timer: with decimal hours unit
       (quantity
         (quantity_value)
         (quantity_unit)))))
+
+===
+timer: value with no unit
+===
+
+~{5}
+
+---
+
+(recipe
+  (step
+    (timer
+      (quantity
+        (quantity_value)))))

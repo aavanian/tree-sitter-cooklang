@@ -152,3 +152,19 @@ amount: non-numeric value
       (ingredient_name)
       (quantity
         (quantity_value)))))
+
+============================================
+amount: non-numeric value with unit
+============================================
+
+@salt{to taste%pinch}
+
+---
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)
+      (quantity
+        (quantity_value)
+        (quantity_unit)))))

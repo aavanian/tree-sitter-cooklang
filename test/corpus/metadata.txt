@@ -134,6 +134,18 @@ Cook the dish.
     (metadata_value)))
 
 ===|||
+metadata: empty value
+===|||
+
+>> key:
+
+---|||
+
+(recipe
+  (metadata
+    (metadata_key)))
+
+===|||
 metadata: old-style mixed with frontmatter should be parsed as a step
 ===|||
 

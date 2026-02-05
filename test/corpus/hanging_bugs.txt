@@ -11,6 +11,37 @@ medium-high
     (text
       (text_content))))
 
+============================================================
+bug: frontmatter blank line truncates block (see bug #3)
+============================================================
+
+---
+title: hi
+
+author: me
+---
+
+---
+
+(recipe
+  (frontmatter
+    (frontmatter_content)))
+
+============================================================
+bug: non-timer ~ swallows following ingredient (see bug #2)
+============================================================
+
+~notimer @salt
+
+---
+
+(recipe
+  (step
+    (text
+      (text_content))
+    (ingredient
+      (ingredient_name))))
+
 ===
 bug: hyphen in full step
 ===

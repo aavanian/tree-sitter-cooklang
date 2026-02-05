@@ -24,3 +24,13 @@ Mix it
     (text
       (text_content))))
 
+============|||
+minimal: empty file
+============|||
+
+
+
+---|||
+
+(recipe)
+
