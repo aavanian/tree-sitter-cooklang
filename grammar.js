@@ -72,7 +72,7 @@ module.exports = grammar({
     frontmatter_content: ($) => repeat1(seq(/[^\n]*/, $._newline)),
 
     metadata: ($) =>
-      seq(field("key", $.metadata_key), ":", field("value", $.metadata_value)),
+      seq(field("key", $.metadata_key), ":", optional(field("value", $.metadata_value))),
 
     section: ($) => field("name", $.section_name),
 

@@ -385,8 +385,8 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
             lexer->advance(lexer, false);
         }
 
+        scanner->in_metadata = false;
         if (has_content) {
-            scanner->in_metadata = false;
             lexer->result_symbol = METADATA_VALUE;
             return true;
         }
