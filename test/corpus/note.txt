@@ -116,6 +116,7 @@ Mash @potato{2%kg} until smooth.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))

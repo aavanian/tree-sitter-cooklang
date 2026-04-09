@@ -183,6 +183,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "percent_separator",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -326,10 +336,6 @@
     "named": false
   },
   {
-    "type": "%",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -375,6 +381,10 @@
   },
   {
     "type": "metadata_value",
+    "named": true
+  },
+  {
+    "type": "percent_separator",
     "named": true
   },
   {

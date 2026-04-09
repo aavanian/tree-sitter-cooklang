@@ -12,7 +12,7 @@
 #define SYMBOL_COUNT 54
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 32
-#define EXTERNAL_TOKEN_COUNT 19
+#define EXTERNAL_TOKEN_COUNT 20
 #define FIELD_COUNT 6
 #define MAX_ALIAS_SEQUENCE_LENGTH 6
 #define MAX_RESERVED_WORD_SET_SIZE 0
@@ -28,28 +28,28 @@ enum ts_symbol_identifiers {
   anon_sym_POUND = 6,
   anon_sym_TILDE = 7,
   anon_sym_LBRACE = 8,
-  anon_sym_PERCENT = 9,
-  anon_sym_LPAREN = 10,
-  anon_sym_RPAREN = 11,
-  anon_sym_GT = 12,
-  sym__newline = 13,
-  sym__step_newline = 14,
-  sym_ingredient_name = 15,
-  sym_recipe_reference = 16,
-  sym_cookware_name = 17,
-  sym_timer_name = 18,
-  sym_text_content = 19,
-  sym_preparation_content = 20,
-  sym_metadata_key = 21,
-  sym_metadata_value = 22,
-  sym_section_name = 23,
-  sym_comment_line = 24,
-  sym_comment_block = 25,
-  sym_recipe_note_text = 26,
-  sym__whitespace_token = 27,
-  sym__quantity_close = 28,
-  sym_quantity_value = 29,
-  sym_quantity_unit = 30,
+  anon_sym_LPAREN = 9,
+  anon_sym_RPAREN = 10,
+  anon_sym_GT = 11,
+  sym__newline = 12,
+  sym__step_newline = 13,
+  sym_ingredient_name = 14,
+  sym_recipe_reference = 15,
+  sym_cookware_name = 16,
+  sym_timer_name = 17,
+  sym_text_content = 18,
+  sym_preparation_content = 19,
+  sym_metadata_key = 20,
+  sym_metadata_value = 21,
+  sym_section_name = 22,
+  sym_comment_line = 23,
+  sym_comment_block = 24,
+  sym_recipe_note_text = 25,
+  sym__whitespace_token = 26,
+  sym__quantity_close = 27,
+  sym_quantity_value = 28,
+  sym_quantity_unit = 29,
+  sym_percent_separator = 30,
   sym__eof = 31,
   sym_recipe = 32,
   sym_frontmatter = 33,
@@ -85,7 +85,6 @@ static const char * const ts_symbol_names[] = {
   [anon_sym_POUND] = "#",
   [anon_sym_TILDE] = "~",
   [anon_sym_LBRACE] = "{",
-  [anon_sym_PERCENT] = "%",
   [anon_sym_LPAREN] = "(",
   [anon_sym_RPAREN] = ")",
   [anon_sym_GT] = ">",
@@ -107,6 +106,7 @@ static const char * const ts_symbol_names[] = {
   [sym__quantity_close] = "_quantity_close",
   [sym_quantity_value] = "quantity_value",
   [sym_quantity_unit] = "quantity_unit",
+  [sym_percent_separator] = "percent_separator",
   [sym__eof] = "_eof",
   [sym_recipe] = "recipe",
   [sym_frontmatter] = "frontmatter",
@@ -142,7 +142,6 @@ static const TSSymbol ts_symbol_map[] = {
   [anon_sym_POUND] = anon_sym_POUND,
   [anon_sym_TILDE] = anon_sym_TILDE,
   [anon_sym_LBRACE] = anon_sym_LBRACE,
-  [anon_sym_PERCENT] = anon_sym_PERCENT,
   [anon_sym_LPAREN] = anon_sym_LPAREN,
   [anon_sym_RPAREN] = anon_sym_RPAREN,
   [anon_sym_GT] = anon_sym_GT,
@@ -164,6 +163,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym__quantity_close] = sym__quantity_close,
   [sym_quantity_value] = sym_quantity_value,
   [sym_quantity_unit] = sym_quantity_unit,
+  [sym_percent_separator] = sym_percent_separator,
   [sym__eof] = sym__eof,
   [sym_recipe] = sym_recipe,
   [sym_frontmatter] = sym_frontmatter,
@@ -223,10 +223,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [anon_sym_LBRACE] = {
-    .visible = true,
-    .named = false,
-  },
-  [anon_sym_PERCENT] = {
     .visible = true,
     .named = false,
   },
@@ -311,6 +307,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym_quantity_unit] = {
+    .visible = true,
+    .named = true,
+  },
+  [sym_percent_separator] = {
     .visible = true,
     .named = true,
   },
@@ -568,12 +568,11 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (eof) ADVANCE(4);
       ADVANCE_MAP(
         '#', 12,
-        '%', 15,
-        '(', 16,
-        ')', 17,
-        '-', 20,
+        '(', 15,
+        ')', 16,
+        '-', 19,
         ':', 10,
-        '>', 18,
+        '>', 17,
         '@', 11,
         '{', 14,
         '~', 13,
@@ -582,7 +581,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(21);
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 1:
       if (lookahead == '-') ADVANCE(5);
@@ -594,7 +593,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (eof) ADVANCE(4);
       if (lookahead == '#') ADVANCE(12);
       if (lookahead == '-') ADVANCE(2);
-      if (lookahead == '>') ADVANCE(18);
+      if (lookahead == '>') ADVANCE(17);
       if (lookahead == '@') ADVANCE(11);
       if (lookahead == '~') ADVANCE(13);
       END_STATE();
@@ -643,43 +642,40 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(anon_sym_LBRACE);
       END_STATE();
     case 15:
-      ACCEPT_TOKEN(anon_sym_PERCENT);
-      END_STATE();
-    case 16:
       ACCEPT_TOKEN(anon_sym_LPAREN);
       END_STATE();
-    case 17:
+    case 16:
       ACCEPT_TOKEN(anon_sym_RPAREN);
       END_STATE();
-    case 18:
+    case 17:
       ACCEPT_TOKEN(anon_sym_GT);
       END_STATE();
-    case 19:
+    case 18:
       ACCEPT_TOKEN(sym_word);
       if (lookahead == '-') ADVANCE(5);
       if (lookahead == '\'' ||
           ('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(21);
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
-    case 20:
+    case 19:
       ACCEPT_TOKEN(sym_word);
-      if (lookahead == '-') ADVANCE(19);
+      if (lookahead == '-') ADVANCE(18);
       if (lookahead == '\'' ||
           ('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(21);
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
-    case 21:
+    case 20:
       ACCEPT_TOKEN(sym_word);
       if (lookahead == '\'' ||
           lookahead == '-' ||
           ('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(21);
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     default:
       return false;
@@ -796,7 +792,6 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_POUND] = ACTIONS(1),
     [anon_sym_TILDE] = ACTIONS(1),
     [anon_sym_LBRACE] = ACTIONS(1),
-    [anon_sym_PERCENT] = ACTIONS(1),
     [anon_sym_LPAREN] = ACTIONS(1),
     [anon_sym_RPAREN] = ACTIONS(1),
     [anon_sym_GT] = ACTIONS(1),
@@ -818,6 +813,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym__quantity_close] = ACTIONS(1),
     [sym_quantity_value] = ACTIONS(1),
     [sym_quantity_unit] = ACTIONS(1),
+    [sym_percent_separator] = ACTIONS(1),
     [sym__eof] = ACTIONS(1),
   },
   [STATE(1)] = {
@@ -1909,11 +1905,11 @@ static const uint16_t ts_small_parse_table[] = {
     ACTIONS(7), 1,
       sym__whitespace_token,
     ACTIONS(193), 1,
-      anon_sym_PERCENT,
-    ACTIONS(195), 1,
       sym__quantity_close,
-    ACTIONS(197), 1,
+    ACTIONS(195), 1,
       sym_quantity_unit,
+    ACTIONS(197), 1,
+      sym_percent_separator,
     STATE(49), 2,
       sym_comment,
       sym_block_comment,
@@ -2490,9 +2486,9 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [187] = {.entry = {.count = 1, .reusable = true}}, SHIFT(54),
   [189] = {.entry = {.count = 1, .reusable = true}}, SHIFT(69),
   [191] = {.entry = {.count = 1, .reusable = true}}, SHIFT(53),
-  [193] = {.entry = {.count = 1, .reusable = true}}, SHIFT(73),
-  [195] = {.entry = {.count = 1, .reusable = true}}, SHIFT(24),
-  [197] = {.entry = {.count = 1, .reusable = true}}, SHIFT(74),
+  [193] = {.entry = {.count = 1, .reusable = true}}, SHIFT(24),
+  [195] = {.entry = {.count = 1, .reusable = true}}, SHIFT(74),
+  [197] = {.entry = {.count = 1, .reusable = true}}, SHIFT(73),
   [199] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_frontmatter_content_repeat1, 2, 0, 0),
   [201] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_frontmatter_content_repeat1, 2, 0, 0), SHIFT_REPEAT(64),
   [204] = {.entry = {.count = 1, .reusable = true}}, SHIFT(23),
@@ -2543,7 +2539,8 @@ enum ts_external_scanner_symbol_identifiers {
   ts_external_token__quantity_close = 15,
   ts_external_token_quantity_value = 16,
   ts_external_token_quantity_unit = 17,
-  ts_external_token__eof = 18,
+  ts_external_token_percent_separator = 18,
+  ts_external_token__eof = 19,
 };
 
 static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
@@ -2565,6 +2562,7 @@ static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
   [ts_external_token__quantity_close] = sym__quantity_close,
   [ts_external_token_quantity_value] = sym_quantity_value,
   [ts_external_token_quantity_unit] = sym_quantity_unit,
+  [ts_external_token_percent_separator] = sym_percent_separator,
   [ts_external_token__eof] = sym__eof,
 };
 
@@ -2588,6 +2586,7 @@ static const bool ts_external_scanner_states[19][EXTERNAL_TOKEN_COUNT] = {
     [ts_external_token__quantity_close] = true,
     [ts_external_token_quantity_value] = true,
     [ts_external_token_quantity_unit] = true,
+    [ts_external_token_percent_separator] = true,
     [ts_external_token__eof] = true,
   },
   [2] = {
@@ -2665,6 +2664,7 @@ static const bool ts_external_scanner_states[19][EXTERNAL_TOKEN_COUNT] = {
     [ts_external_token__whitespace_token] = true,
     [ts_external_token__quantity_close] = true,
     [ts_external_token_quantity_unit] = true,
+    [ts_external_token_percent_separator] = true,
   },
   [13] = {
     [ts_external_token_comment_line] = true,

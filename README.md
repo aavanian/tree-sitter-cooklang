@@ -24,6 +24,12 @@ This is a [Tree-Sitter](https://tree-sitter.github.io/) grammar for
    identify where extensions break the grammar and fix those and 2/
    decide whether some/all extensions require specific parsing.
 
+<!-- TODO: rewrite this section based on project owner feedback -->
+<!-- Additional notable difference to incorporate:
+     - `%` is exposed as a named `percent_separator` node in the AST.
+       A separator (either `%` or a space) is required between value and unit;
+       bare concatenation like `{2cups}` is a parse error.
+-->
 ## Notable Differences
 
 * A step with multiple lines will have children node(s) per line

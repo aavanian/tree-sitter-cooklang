@@ -72,6 +72,7 @@ amount: large quantity
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===============================
@@ -88,6 +89,7 @@ amount: mixed fraction quantity
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 =============================
@@ -104,6 +106,7 @@ amount: unit with % separator
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 =================================
@@ -167,4 +170,22 @@ amount: non-numeric value with unit
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
+
+==================================================
+amount: no separator between value and unit (error)
+==================================================
+
+@ingredient{2cups}
+
+---
+
+(recipe
+  (step
+    (ingredient
+      (ingredient_name)))
+  (ERROR
+    (quantity_value)
+    (word)
+    (recipe_note_text)))

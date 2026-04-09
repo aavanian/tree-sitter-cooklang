@@ -29,6 +29,7 @@ Pour over with @./sauces/Hollandaise{150%g}.
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -49,6 +50,7 @@ Use @.\sauces\bechamel{200%g}.
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -69,6 +71,7 @@ Top with @./Sauces/Super Sweet{1%portion}.
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -89,6 +92,7 @@ Add @./broths/Vegetable{2%cups}(heated).
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))
@@ -111,6 +115,7 @@ Add @./bases/sauces/french/hollandaise{100%ml}
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===============================
@@ -129,4 +134,5 @@ Add @./french_sauces/la-hollandaise{100%ml}
       (recipe_reference)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))

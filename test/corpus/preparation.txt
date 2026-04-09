@@ -33,6 +33,7 @@ Cook for ~{10%minutes}(stirring occasionally).
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))
@@ -102,6 +103,7 @@ Mix @onion{1}(peeled and finely chopped) and @garlic{2%cloves}(peeled and minced
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))
@@ -216,6 +218,7 @@ This is a step with an ~timer{1%s}(and a preparation) and more text after.
       (timer_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))

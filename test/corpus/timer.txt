@@ -11,6 +11,7 @@ timer: anonymous
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ====================================
@@ -54,12 +55,14 @@ Cook for ~{5%minutes}, then simmer ~{20%minutes}
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===
@@ -76,6 +79,7 @@ timer: named
       (timer_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===
@@ -91,6 +95,7 @@ timer: anonymous with note
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))))
@@ -109,6 +114,7 @@ timer: named with note
       (timer_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit))
       (preparation
         (preparation_content)))))
@@ -127,6 +133,7 @@ timer: with hours unit
       (timer_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===
@@ -142,6 +149,7 @@ timer: with decimal hours unit
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===

@@ -17,6 +17,7 @@ edge_case: adjacent symbols
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===
@@ -55,12 +56,14 @@ In #pan{} add @oil{2%tbsp} and heat ~{3%min} [- block comment -] then serve.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (block_comment
       (comment_block))
@@ -81,6 +84,7 @@ edge_case: escape character - do not handle it
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===
@@ -135,6 +139,7 @@ edge_case: unicode in ingredient
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))))
 
 ===

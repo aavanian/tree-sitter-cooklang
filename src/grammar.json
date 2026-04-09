@@ -521,8 +521,8 @@
                           "type": "CHOICE",
                           "members": [
                             {
-                              "type": "STRING",
-                              "value": "%"
+                              "type": "SYMBOL",
+                              "name": "percent_separator"
                             },
                             {
                               "type": "BLANK"
@@ -717,6 +717,10 @@
     {
       "type": "SYMBOL",
       "name": "quantity_unit"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "percent_separator"
     },
     {
       "type": "SYMBOL",

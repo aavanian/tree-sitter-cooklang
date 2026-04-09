@@ -22,6 +22,7 @@ enum TokenType {
     QUANTITY_CLOSE,
     QUANTITY_VALUE,
     QUANTITY_UNIT,
+    PERCENT_SEPARATOR,
     TOKEN_EOF
 };
 
@@ -30,6 +31,7 @@ typedef struct {
     bool at_line_start;
     int paren_depth;
     bool whitespace_since_element;
+    bool after_percent;
 } Scanner;
 
 static inline bool is_word_char(int32_t c) {
@@ -167,6 +169,7 @@ void *tree_sitter_cooklang_external_scanner_create() {
     scanner->at_line_start = true;
     scanner->paren_depth = 0;
     scanner->whitespace_since_element = true;
+    scanner->after_percent = false;
     return scanner;
 }
 
@@ -182,7 +185,8 @@ unsigned tree_sitter_cooklang_external_scanner_serialize(void *payload, char *bu
     buffer[2] = (char)(scanner->paren_depth & 0xFF);
     buffer[3] = (char)((scanner->paren_depth >> 8) & 0xFF);
     buffer[4] = scanner->whitespace_since_element;
-    return 5;
+    buffer[5] = scanner->after_percent;
+    return 6;
 }
 
 void tree_sitter_cooklang_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
@@ -192,6 +196,9 @@ void tree_sitter_cooklang_external_scanner_deserialize(void *payload, const char
         scanner->at_line_start = buffer[1];
         scanner->paren_depth = (unsigned char)buffer[2] | ((unsigned char)buffer[3] << 8);
         scanner->whitespace_since_element = buffer[4];
+    }
+    if (length >= 6) {
+        scanner->after_percent = buffer[5];
     }
 }
 
@@ -622,11 +629,23 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
         }
     }
 
+    // Consume the '%' separator between quantity value and unit.
+    // Using an external token lets the scanner track that '%' was consumed
+    // so QUANTITY_UNIT can require an explicit separator.
+    if (valid_symbols[PERCENT_SEPARATOR] && lexer->lookahead == '%') {
+        lexer->advance(lexer, false);
+        lexer->mark_end(lexer);
+        scanner->after_percent = true;
+        lexer->result_symbol = PERCENT_SEPARATOR;
+        return true;
+    }
+
     // Scan the unit part inside a quantity (after value, before close brace).
-    // Guard against '%': external tokens have priority over literals, so without
-    // this guard QUANTITY_UNIT would swallow the '%' separator.
+    // Requires either a '%' separator or at least one space before the unit,
+    // so that {2cups} (no separator) is rejected as invalid.
     if (valid_symbols[QUANTITY_UNIT]) {
-        if (lexer->lookahead != '}' && lexer->lookahead != '%' &&
+        bool has_separator = scanner->whitespace_since_element || scanner->after_percent;
+        if (has_separator && lexer->lookahead != '}' && lexer->lookahead != '%' &&
             lexer->lookahead != '\n' && !lexer->eof(lexer)) {
             bool has_content = false;
             while (!lexer->eof(lexer) && lexer->lookahead != '}' && lexer->lookahead != '\n') {
@@ -639,17 +658,19 @@ bool tree_sitter_cooklang_external_scanner_scan(void *payload, TSLexer *lexer, c
                 }
             }
             if (has_content) {
+                scanner->after_percent = false;
                 lexer->result_symbol = QUANTITY_UNIT;
                 return true;
             }
         }
-        // Fall through to QUANTITY_CLOSE if guard triggered or no content found
+        // Fall through to QUANTITY_CLOSE if no separator or no content found
     }
 
     // Handle quantity close brace - tracked externally to reset whitespace flag
     if (valid_symbols[QUANTITY_CLOSE] && lexer->lookahead == '}') {
         lexer->advance(lexer, false);
         scanner->whitespace_since_element = false;
+        scanner->after_percent = false;
         lexer->result_symbol = QUANTITY_CLOSE;
         return true;
     }

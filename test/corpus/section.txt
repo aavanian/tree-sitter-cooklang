@@ -45,6 +45,7 @@ Mix @flour{200%g} and @water{100%ml} together.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))
@@ -52,6 +53,7 @@ Mix @flour{200%g} and @water{100%ml} together.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -76,6 +78,7 @@ Mix @flour{200%g} and @water{100%ml} together.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))
@@ -83,6 +86,7 @@ Mix @flour{200%g} and @water{100%ml} together.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -106,6 +110,7 @@ Add @cheese{100%g}.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))
@@ -185,6 +190,7 @@ Cook for ~{45%minutes}.
       (ingredient_name)
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))
@@ -199,6 +205,7 @@ Cook for ~{45%minutes}.
     (timer
       (quantity
         (quantity_value)
+        (percent_separator)
         (quantity_unit)))
     (text
       (text_content))))

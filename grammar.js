@@ -20,6 +20,7 @@ module.exports = grammar({
     $._quantity_close,
     $.quantity_value,
     $.quantity_unit,
+    $.percent_separator,
     $._eof,
   ],
 
@@ -117,7 +118,7 @@ module.exports = grammar({
         optional(
           seq(
             field("value", $.quantity_value),
-            optional(seq(optional("%"), field("unit", $.quantity_unit))),
+            optional(seq(optional($.percent_separator), field("unit", $.quantity_unit))),
           ),
         ),
         $._quantity_close,
